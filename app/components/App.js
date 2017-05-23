@@ -16,7 +16,11 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        Hello World!!!!!!
+        Upload an Image of a Car
+        <form id="fileform" action="">
+		      <input id="fileInput" type="file" name="fileField"/>
+		      <input type="submit" name="submit" value="Submit"/>
+	      </form>
       </div>
     )
   }

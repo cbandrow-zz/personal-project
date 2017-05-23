@@ -21884,7 +21884,13 @@
 	      return _react2.default.createElement(
 	        'div',
 	        null,
-	        'Hello World!!!!!!'
+	        'Upload an Image of a Car',
+	        _react2.default.createElement(
+	          'form',
+	          { id: 'fileform', action: '' },
+	          _react2.default.createElement('input', { id: 'fileInput', type: 'file', name: 'fileField' }),
+	          _react2.default.createElement('input', { type: 'submit', name: 'submit', value: 'Submit' })
+	        )
 	      );
 	    }
 	  }]);
