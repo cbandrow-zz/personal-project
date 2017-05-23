@@ -4,26 +4,32 @@ const webpack = require('webpack');
 module.exports = {
   devtool: '#source-map',
   context: __dirname,
-   entry: [
-     './app/index.js'
-   ],
-   output: {
-     path: './app',
+  entry: {
+     index: ['./app/index.js', 'webpack-hot-middleware/client', 'webpack/hot/dev-server'],
+   },
+  devtool: 'source-map',
+  target: 'web',
+
+  output: {
+     path: path.join(__dirname, 'app'),
      filename: 'bundle.js',
-     publicPath: '/'
+     publicPath: 'http://localhost:3000/app/',
    },
-   module: {
-     loaders: [{
-       test: /.jsx?$/,
-       loader: 'babel-loader',
-       include: path.join(__dirname, 'app'),
-       exclude: /node_modules/,
-       query: {
-         presets: ['es2015', 'react']
-       }
-     }]
-   },
+
+  plugins: [
+     new webpack.HotModuleReplacementPlugin()
+   ],
   resolve: {
     extensions: ['', '.js', '.jsx', '.json', '.scss', '.css']
+   },
+
+  module: {
+    loaders: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loaders: ['react-hot-loader', 'babel-loader?presets[]=react,presets[]=es2015'],
+      }
+    ]
   }
 };
