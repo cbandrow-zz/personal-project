@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
 
-class Root extends Component {
+
+class App extends Component {
   componentDidMount() {
     // INSERT API CALL TO YOUR INTERNAL API
   }
@@ -13,4 +14,4 @@ class Root extends Component {
   }
 }
 
-render(<Root />, document.getElementById('main'))
+render(<App />, document.getElementById('main'))
