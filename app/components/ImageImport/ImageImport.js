@@ -24,13 +24,26 @@ export default class ImportImage extends Component {
    let reader = new FileReader();
    let file = e.target.files[0];
 
+   let imagePromise = new Promise((resolve, reject)=>{
+     reader.readAsDataURL(file)
+     setTimeout(function(){
+       resolve("Supposedly your shit was transformed!");
+     }, 250);
+   });
+
    reader.onloadend = () => {
      this.setState({
        file: file,
        imagePreviewUrl: reader.result
      });
    }
-   reader.readAsDataURL(file)
+   
+   console.log(imagePromise)
+   imagePromise.then(()=>{
+     console.log("readerResult should be through")
+     console.log(this.state)
+   })
+
  }
 
   render(){
