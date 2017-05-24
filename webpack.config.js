@@ -11,11 +11,6 @@ module.exports = {
        './app/components/helpers/HelperCloudAPI.js',  'webpack-hot-middleware/client',
        'webpack/hot/dev-server'
      ],
-     helpers: [
-       './app/components/helpers/HelperCloudAPI.js',
-        'webpack-hot-middleware/client',
-     'webpack/hot/dev-server'
-   ]
    },
   devtool: 'source-map',
   target: 'web',

@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { render } from 'react-dom'
 import ImageImport from './ImageImport/ImageImport'
 import ImageHolder from './ImageHolder/ImageHolder'
+import jsonData from './helpers/jsonData.js'
+import key from './helpers/apiKey.js'
 
 export default class App extends Component {
   constructor(){
@@ -19,6 +21,22 @@ export default class App extends Component {
     this.setState({
       imagePreviewUrl: inputState.imagePreviewUrl,
     })
+    let content = this.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '')
+    this.sendDataCloudVision(content)
+  }
+
+  sendDataCloudVision(content){
+    let results
+    fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key}`,{
+      method: 'POST',
+      dataType: 'json',
+      data: `${jsonData(content)}`,
+      headers: { 'Content-Type': 'application/json' },
+    }).then((resp) => resp.json())
+     .then((data) => {
+       console.log(data)
+     })
+     .catch(err => console.log(err))
   }
 
   render() {
