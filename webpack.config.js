@@ -5,7 +5,17 @@ module.exports = {
   devtool: '#source-map',
   context: __dirname,
   entry: {
-     index: ['./app/index.js', 'webpack-hot-middleware/client', 'webpack/hot/dev-server'],
+     index: [
+       './app',
+       './app/index.js',
+       './app/components/helpers/HelperCloudAPI.js',  'webpack-hot-middleware/client',
+       'webpack/hot/dev-server'
+     ],
+     helpers: [
+       './app/components/helpers/HelperCloudAPI.js',
+        'webpack-hot-middleware/client',
+     'webpack/hot/dev-server'
+   ]
    },
   devtool: 'source-map',
   target: 'web',
