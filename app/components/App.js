@@ -22,20 +22,22 @@ export default class App extends Component {
       imagePreviewUrl: inputState.imagePreviewUrl,
     })
     let content = this.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '')
-    this.sendDataCloudVision(content)
+    console.log(content, 'content @app/handleImageData')
   }
 
   sendDataCloudVision(content){
+    let newContent = jsonData(content)
+    console.log(newContent)
     let results
     fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key}`,{
       method: 'POST',
       dataType: 'json',
-      data: `${jsonData(content)}`,
+      data: `${newContent}`,
       headers: { 'Content-Type': 'application/json' },
     }).then((resp) => resp.json())
-     .then((data) => {
-       console.log(data)
-     })
+      .then((data) =>{
+        console.log(data)
+      })
      .catch(err => console.log(err))
   }
 

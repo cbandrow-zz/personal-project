@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "0f96d2b8a811c7ab808b"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "00b1159d9b6b21786fb0"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22895,8 +22895,8 @@
 	      var results = void 0;
 	      fetch('https://vision.googleapis.com/v1/images:annotate?key=' + _apiKey2.default, {
 	        method: 'POST',
-	        dataType: '' + (0, _jsonData2.default)(content),
-	        data: '',
+	        dataType: 'json',
+	        data: '' + (0, _jsonData2.default)(content),
 	        headers: { 'Content-Type': 'application/json' }
 	      }).then(function (resp) {
 	        return resp.json();
@@ -22991,13 +22991,24 @@
 	      var reader = new FileReader();
 	      var file = e.target.files[0];
 	
-	      reader.onloadend = function () {
-	        _this2.setState({
-	          file: file,
-	          imagePreviewUrl: reader.result
-	        });
-	      };
-	      reader.readAsDataURL(file);
+	      var imagePromise = new Promise(function (resolve, reject) {
+	        reader.readAsDataURL(file);
+	        setTimeout(function () {
+	          resolve("Supposedly your shit was transformed!");
+	        }, 500);
+	      });
+	
+	      console.log(imagePromise);
+	      imagePromise.then(function () {
+	        reader.onloadend = function () {
+	          _this2.setState({
+	            file: file,
+	            imagePreviewUrl: reader.result
+	          });
+	        };
+	        console.log("readerResult should be through");
+	        console.log(_this2.state);
+	      });
 	    }
 	  }, {
 	    key: 'render',
