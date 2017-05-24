@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
+import ImageImport from './ImageImport/ImageImport'
 
 export default class App extends Component {
   constructor(){
@@ -16,11 +17,8 @@ export default class App extends Component {
   render() {
     return (
       <div>
-        Upload an Image of a Car
-        <form id="fileform" action="">
-		      <input id="fileInput" type="file" name="fileField"/>
-		      <input type="submit" name="submit" value="Submit"/>
-	      </form>
+        Upload an Image of a Car. We'll do the rest.
+        <ImageImport/>
       </div>
     )
   }
