@@ -34,7 +34,7 @@ export default class ImportImage extends Component {
      }
      setTimeout(function(){
        resolve("Supposedly your shit was transformed!");
-     }, 500);
+     }, 200);
    });
    imagePromise.then(()=>{
      console.log("readerResult should be through")

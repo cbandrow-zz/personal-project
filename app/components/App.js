@@ -18,11 +18,22 @@ export default class App extends Component {
   }
 
   handleImageData(inputState){
-    this.setState({
-      imagePreviewUrl: inputState.imagePreviewUrl,
+    let content
+    let statePromise = new Promise((resolve, reject)=>{
+      console.log(this.state, 'during promise')
+      this.setState({
+        imagePreviewUrl: inputState.imagePreviewUrl,
+      })
+      setTimeout(function(){
+        console.log(this.state, 'resolved promise')
+        resolve("received Base64 image");
+      }, 2200);
     })
-    let content = this.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '')
-    console.log(content, 'content @app/handleImageData')
+    statePromise.then(() =>{
+      content = this.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '')
+      console.log(content, 'content @app/handleImageData')
+      this.sendDataCloudVision(content)
+    })
   }
 
   sendDataCloudVision(content){
