@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "00b1159d9b6b21786fb0"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "3c37f7b813f46ad0500a"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22883,20 +22883,34 @@
 	  }, {
 	    key: 'handleImageData',
 	    value: function handleImageData(inputState) {
-	      this.setState({
-	        imagePreviewUrl: inputState.imagePreviewUrl
+	      var _this2 = this;
+	
+	      var content = void 0;
+	      var statePromise = new Promise(function (resolve, reject) {
+	        console.log('during promise');
+	        _this2.setState({
+	          imagePreviewUrl: inputState.imagePreviewUrl
+	        });
+	        setTimeout(function () {
+	          console.log('resolved promise');
+	          resolve("received Base64 image");
+	        }, 1500);
 	      });
-	      var content = this.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '');
-	      this.sendDataCloudVision(content);
+	      statePromise.then(function () {
+	        content = _this2.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '');
+	        _this2.sendDataCloudVision(content);
+	      });
 	    }
 	  }, {
 	    key: 'sendDataCloudVision',
 	    value: function sendDataCloudVision(content) {
+	      console.log(_apiKey2.default);
+	      var newContent = (0, _jsonData2.default)(content);
 	      var results = void 0;
 	      fetch('https://vision.googleapis.com/v1/images:annotate?key=' + _apiKey2.default, {
 	        method: 'POST',
 	        dataType: 'json',
-	        data: '' + (0, _jsonData2.default)(content),
+	        data: '' + newContent,
 	        headers: { 'Content-Type': 'application/json' }
 	      }).then(function (resp) {
 	        return resp.json();
@@ -22993,19 +23007,17 @@
 	
 	      var imagePromise = new Promise(function (resolve, reject) {
 	        reader.readAsDataURL(file);
-	        setTimeout(function () {
-	          resolve("Supposedly your shit was transformed!");
-	        }, 500);
-	      });
-	
-	      console.log(imagePromise);
-	      imagePromise.then(function () {
 	        reader.onloadend = function () {
 	          _this2.setState({
 	            file: file,
 	            imagePreviewUrl: reader.result
 	          });
 	        };
+	        setTimeout(function () {
+	          resolve("Supposedly your shit was transformed!");
+	        }, 200);
+	      });
+	      imagePromise.then(function () {
 	        console.log("readerResult should be through");
 	        console.log(_this2.state);
 	      });
@@ -23029,7 +23041,7 @@
 	          _react2.default.createElement('input', { onClick: function onClick(e) {
 	              return _this3.handleSubmit(e);
 	            },
-	            type: 'submit', name: 'submit', value: 'Submit' })
+	            type: 'submit', name: 'submit', value: 'Submit', disabled: !this.state.file })
 	        )
 	      );
 	    }
@@ -23267,6 +23279,7 @@
 	  value: true
 	});
 	var jsonData = function jsonData(content) {
+	  console.log(content, 'content from jsonData');
 	  var data = {
 	    "requests": [{
 	      "image": {
@@ -23297,7 +23310,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var key = 'AIzaSyDQZbd9o6vvEORQsv0_1y0olPGgWTU5GSc';
+	var key = 'AIzaSyC816eFEdhUkuoGY51_mo0-X95Mjpr87tA';
 	exports.default = key;
 	
 	/* REACT HOT LOADER */ }).call(this); } finally { if (true) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = __webpack_require__(197); if (makeExportsHot(module, __webpack_require__(103))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "apiKey.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }

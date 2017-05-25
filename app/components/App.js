@@ -3,7 +3,7 @@ import { render } from 'react-dom'
 import ImageImport from './ImageImport/ImageImport'
 import ImageHolder from './ImageHolder/ImageHolder'
 import jsonData from './helpers/jsonData.js'
-import key from './helpers/apiKey.js'
+import key2 from './helpers/apiKey.js'
 
 export default class App extends Component {
   constructor(){
@@ -20,27 +20,26 @@ export default class App extends Component {
   handleImageData(inputState){
     let content
     let statePromise = new Promise((resolve, reject)=>{
-      console.log(this.state, 'during promise')
+      console.log('during promise')
       this.setState({
         imagePreviewUrl: inputState.imagePreviewUrl,
       })
       setTimeout(function(){
-        console.log(this.state, 'resolved promise')
+        console.log('resolved promise')
         resolve("received Base64 image");
-      }, 2200);
+      }, 1500);
     })
     statePromise.then(() =>{
       content = this.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '')
-      console.log(content, 'content @app/handleImageData')
       this.sendDataCloudVision(content)
     })
   }
 
   sendDataCloudVision(content){
+    console.log(key2)
     let newContent = jsonData(content)
-    console.log(newContent)
     let results
-    fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key}`,{
+    fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key2}`,{
       method: 'POST',
       dataType: 'json',
       data: `${newContent}`,

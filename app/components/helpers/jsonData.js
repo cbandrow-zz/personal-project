@@ -1,5 +1,4 @@
 const jsonData = (content) => {
-  console.log(content, 'content from jsonData')
    let data = {
      "requests": [
     	{
@@ -9,7 +8,7 @@ const jsonData = (content) => {
     	  "features": [
     	      {
     	      	"type": "WEB_DETECTION",
-    			    "maxResults": 200
+    			    "maxResults": 15,
     	     }
     	  ]
     	}
@@ -19,3 +18,19 @@ const jsonData = (content) => {
 };
 
 export default jsonData
+
+let data = {
+  "requests":[
+    {
+      "image":{
+        "content":`${content}`
+      },
+      "features":[
+        {
+          "type":"TYPE_UNSPECIFIED",
+          "maxResults":10
+        }
+      ]
+    }
+  ]
+}
