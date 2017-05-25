@@ -30,16 +30,18 @@ export default class App extends Component {
         resolve("received Base64 image");
       }, 1500);
     })
+
     statePromise.then(() =>{
-      console.log(this.state.imagePreviewUrl)
       content = this.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '')
       this.sendDataCloudVision(content)
     })
   }
 
   sendDataCloudVision(content){
+    console.log(content)
     let newContent = jsonData(content)
     let results
+    console.log(newContent)
     // $.ajax({
     //   type: 'POST',
     //   url: `https://vision.googleapis.com/v1/images:annotate?key=${key2}`,
@@ -52,8 +54,7 @@ export default class App extends Component {
     //  .catch(err => console.log(err))
      fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key2}`,{
        method: 'POST',
-       headers: { 'Content-Type': 'application/json' },
-       mode: 'cors',
+       headers: {'Content-Type': 'application/json'},
        body: JSON.stringify(newContent),
      }).then((resp) => {
        console.log(resp)

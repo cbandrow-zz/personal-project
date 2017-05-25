@@ -39,8 +39,6 @@ export default class ImportImage extends Component {
      console.log("readerResult should be through")
      console.log(this.state)
    })
-
-
  }
 
   render(){
