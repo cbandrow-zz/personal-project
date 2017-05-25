@@ -14,7 +14,6 @@ export default class ImportImage extends Component {
 
   handleSubmit(e) {
    e.preventDefault();
-   console.log('handle uploading-', this.state.file);
    this.props.handleImageData(this.state)
  }
 
