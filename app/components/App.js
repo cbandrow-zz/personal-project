@@ -6,6 +6,7 @@ import jsonData from './helpers/jsonData.js'
 import key2 from './helpers/apiKey.js'
 import $ from 'jquery'
 import stubData from './helpers/stubbeddata.js'
+import vehicleData from './helpers/vehicleData.js'
 
 export default class App extends Component {
   constructor(){
@@ -39,8 +40,26 @@ export default class App extends Component {
     })
   }
 
-  sendDataCloudVision(content){
+  cleanVehicleData(){
+    let reducedData = vehicleData.makes.reduce((acc, make) =>{
+      if(!acc[make.name]){
+        acc[make.name] = {
+          name: make.name,
+          models: make.models.map((model) =>{
+            return {
+              name: model.name,
+              id: model.id
+            }
+          })
+        }
+      }
+      return acc
+    }, [])
+    console.log(reducedData)
+    return reducedData
+  }
 
+  sendDataCloudVision(content){
     let newContent = jsonData(content)
     // let results
     //  fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key2}`,{
@@ -55,7 +74,6 @@ export default class App extends Component {
     //  })
     //  .catch(err => console.log(err))
     console.log(stubData)
-
   }
 
   render() {
