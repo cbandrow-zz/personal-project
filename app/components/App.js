@@ -13,12 +13,17 @@ export default class App extends Component {
     super()
     this.state = {
       imagePreviewUrl: '',
+      vehicleData: {},
       results: ''
     }
   }
 
   componentDidMount() {
-    // INSERT API CALL TO YOUR INTERNAL API
+    let results = this.cleanVehicleData()
+    this.setState({
+      vehicleData: results,
+    })
+    console.log(results)
   }
 
   handleImageData(inputState){
@@ -30,10 +35,9 @@ export default class App extends Component {
       })
       setTimeout(function(){
         console.log('resolved promise')
-        resolve("received Base64 image");
+        resolve('promise resolved');
       }, 1500);
     })
-
     statePromise.then(() =>{
       content = this.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '')
       this.sendDataCloudVision(content)
@@ -55,7 +59,6 @@ export default class App extends Component {
       }
       return acc
     }, [])
-    console.log(reducedData)
     return reducedData
   }
 
