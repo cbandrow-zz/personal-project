@@ -36,17 +36,20 @@ export default class App extends Component {
   }
 
   sendDataCloudVision(content){
-    console.log(key2)
     let newContent = jsonData(content)
     let results
     fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key2}`,{
       method: 'POST',
-      dataType: 'json',
-      data: `${newContent}`,
+      
       headers: { 'Content-Type': 'application/json' },
-    }).then((resp) => resp.json())
+      mode: 'cors',
+      data: JSON.stringify(newContent),
+    }).then((resp) => {
+      console.log(resp, 'response from google')
+      return resp.json()
+    })
       .then((data) =>{
-        console.log(data)
+        console.log(data, 'supposedly clean data')
       })
      .catch(err => console.log(err))
   }

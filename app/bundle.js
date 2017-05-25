@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "3c37f7b813f46ad0500a"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "f5edd2e0de05ef8abc8d"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22904,18 +22904,30 @@
 	  }, {
 	    key: 'sendDataCloudVision',
 	    value: function sendDataCloudVision(content) {
-	      console.log(_apiKey2.default);
 	      var newContent = (0, _jsonData2.default)(content);
 	      var results = void 0;
 	      fetch('https://vision.googleapis.com/v1/images:annotate?key=' + _apiKey2.default, {
 	        method: 'POST',
+	        url: 'https://vision.googleapis.com/v1/images:annotate?key=' + _apiKey2.default,
 	        dataType: 'json',
-	        data: '' + newContent,
-	        headers: { 'Content-Type': 'application/json' }
+	        headers: { 'Content-Type': 'application/json' },
+	        mode: 'cors',
+	        data: JSON.stringify({
+	          "requests": [{
+	            "image": {
+	              "content": '' + content
+	            },
+	            "features": [{
+	              "type": "TYPE_UNSPECIFIED",
+	              "maxResults": 10
+	            }]
+	          }]
+	        })
 	      }).then(function (resp) {
+	        console.log(resp, 'response from google');
 	        return resp.json();
 	      }).then(function (data) {
-	        console.log(data);
+	        console.log(data, 'supposedly clean data');
 	      }).catch(function (err) {
 	        return console.log(err);
 	      });
@@ -23279,15 +23291,14 @@
 	  value: true
 	});
 	var jsonData = function jsonData(content) {
-	  console.log(content, 'content from jsonData');
 	  var data = {
 	    "requests": [{
 	      "image": {
 	        "content": "" + content
 	      },
 	      "features": [{
-	        "type": "WEB_DETECTION",
-	        "maxResults": 200
+	        "type": "TYPE_UNSPECIFIED",
+	        "maxResults": 10
 	      }]
 	    }]
 	  };
@@ -23310,8 +23321,9 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	var key = 'AIzaSyC816eFEdhUkuoGY51_mo0-X95Mjpr87tA';
-	exports.default = key;
+	var key1 = 'AIzaSyC816eFEdhUkuoGY51_mo0-X95Mjpr87tA';
+	var key2 = 'AIzaSyDQZbd9o6vvEORQsv0_1y0olPGgWTU5GSc';
+	exports.default = key2;
 	
 	/* REACT HOT LOADER */ }).call(this); } finally { if (true) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = __webpack_require__(197); if (makeExportsHot(module, __webpack_require__(103))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "apiKey.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
