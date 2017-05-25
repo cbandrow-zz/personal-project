@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "22efb4ca59f6a98ea1b6"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "217ff9daa13aca9193d8"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22900,6 +22900,7 @@
 	          resolve("received Base64 image");
 	        }, 1500);
 	      });
+	
 	      statePromise.then(function () {
 	        content = _this2.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '');
 	        _this2.sendDataCloudVision(content);
@@ -22908,8 +22909,10 @@
 	  }, {
 	    key: 'sendDataCloudVision',
 	    value: function sendDataCloudVision(content) {
+	      console.log(content);
 	      var newContent = (0, _jsonData2.default)(content);
 	      var results = void 0;
+	      console.log(newContent);
 	      // $.ajax({
 	      //   type: 'POST',
 	      //   url: `https://vision.googleapis.com/v1/images:annotate?key=${key2}`,
@@ -22921,9 +22924,8 @@
 	      //   })
 	      //  .catch(err => console.log(err))
 	      fetch('https://vision.googleapis.com/v1/images:annotate?key=' + _apiKey2.default, {
-	        method: 'GET',
+	        method: 'POST',
 	        headers: { 'Content-Type': 'application/json' },
-	        mode: 'cors',
 	        body: JSON.stringify(newContent)
 	      }).then(function (resp) {
 	        console.log(resp);
@@ -23299,8 +23301,43 @@
 	      },
 	      "features": [{
 	        "type": "TYPE_UNSPECIFIED",
-	        "maxResults": 10
-	      }]
+	        "maxResults": 50
+	      }, {
+	        "type": "LANDMARK_DETECTION",
+	        "maxResults": 50
+	      }, {
+	        "type": "FACE_DETECTION",
+	        "maxResults": 50
+	      }, {
+	        "type": "LOGO_DETECTION",
+	        "maxResults": 50
+	      }, {
+	        "type": "LABEL_DETECTION",
+	        "maxResults": 50
+	      }, {
+	        "type": "TEXT_DETECTION",
+	        "maxResults": 50
+	      }, {
+	        "type": "DOCUMENT_TEXT_DETECTION",
+	        "maxResults": 50
+	      }, {
+	        "type": "SAFE_SEARCH_DETECTION",
+	        "maxResults": 50
+	      }, {
+	        "type": "IMAGE_PROPERTIES",
+	        "maxResults": 50
+	      }, {
+	        "type": "CROP_HINTS",
+	        "maxResults": 50
+	      }, {
+	        "type": "WEB_DETECTION",
+	        "maxResults": 50
+	      }],
+	      "imageContext": {
+	        "cropHintsParams": {
+	          "aspectRatios": [0.8, 1, 1.2]
+	        }
+	      }
 	    }]
 	  };
 	  return data;
