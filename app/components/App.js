@@ -64,27 +64,42 @@ export default class App extends Component {
 
   sendDataCloudVision(content){
     let newContent = jsonData(content)
-    // let results
-    //  fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key2}`,{
-    //    method: 'POST',
-    //    headers: {'Content-Type': 'application/json'},
-    //    body: JSON.stringify(newContent),
-    //  }).then((resp) => resp.json())
-    //    .then((data) =>{
-    //
-    //    results = data
-    //    console.log(results, 'cleaned data')
-    //  })
-    //  .catch(err => console.log(err))
-    console.log(stubData)
+    let results
+     fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key2}`,{
+       method: 'POST',
+       headers: {'Content-Type': 'application/json'},
+       body: JSON.stringify(newContent),
+     }).then((resp) => resp.json())
+       .then((data) =>{
+
+       results = data
+       console.log(results, 'cleaned data')
+     })
+     .catch(err => console.log(err))
+    // console.log(stubData)
+  }
+  displayComponents(){
+    if(this.state.imagePreviewUrl){
+      return (
+        <div>
+          <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
+          <ImageHolder url = {this.state.imagePreviewUrl}/>
+        </div>
+      )
+    }else {
+      return(
+        <div>
+          <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
+        </div>
+      )
+    }
   }
 
   render() {
     return (
-      <div>
-        <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
-        <ImageHolder url = {this.state.imagePreviewURL}/>
-      </div>
+      <section>
+        {this.displayComponents()}
+      </section>
     )
   }
 }

@@ -46,7 +46,7 @@ export default class ImportImage extends Component {
       <div>
         <form id="fileform" onSubmit = {(e) => this.handleSubmit(e)}>
           <input id="fileInput" type="file" name="fileField" onChange = {(e) => this.handleImageUpload(e)}/>
-          <input onClick = {(e) => this.handleSubmit(e)}
+          <input onClick = {(e) => this.handleSubmit(e)} id = "submit-btn"
           type="submit" name="submit" value="Submit" disabled = {!this.state.file}/>
         </form>
       </div>

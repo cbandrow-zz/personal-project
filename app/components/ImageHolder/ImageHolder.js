@@ -1,8 +1,10 @@
 import React from 'react'
 
-const ImageHolder = (url) => {
+const ImageHolder = ({url}) => {
   return(
-    <div></div>
+    <div className = "image">
+      <img src = {url} />
+    </div>
   )
 }
 

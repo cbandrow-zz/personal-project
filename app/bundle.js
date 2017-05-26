@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "fe266dd587a83476a7fe"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "e07e301c996e3b001d6d"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22911,10 +22911,9 @@
 	        });
 	        setTimeout(function () {
 	          console.log('resolved promise');
-	          resolve("received Base64 image");
+	          resolve('promise resolved');
 	        }, 1500);
 	      });
-	
 	      statePromise.then(function () {
 	        content = _this2.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '');
 	        _this2.sendDataCloudVision(content);
@@ -22943,28 +22942,47 @@
 	    key: 'sendDataCloudVision',
 	    value: function sendDataCloudVision(content) {
 	      var newContent = (0, _jsonData2.default)(content);
-	      // let results
-	      //  fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key2}`,{
-	      //    method: 'POST',
-	      //    headers: {'Content-Type': 'application/json'},
-	      //    body: JSON.stringify(newContent),
-	      //  }).then((resp) => resp.json())
-	      //    .then((data) =>{
-	      //
-	      //    results = data
-	      //    console.log(results, 'cleaned data')
-	      //  })
-	      //  .catch(err => console.log(err))
-	      console.log(_stubbeddata2.default);
+	      var results = void 0;
+	      fetch('https://vision.googleapis.com/v1/images:annotate?key=' + _apiKey2.default, {
+	        method: 'POST',
+	        headers: { 'Content-Type': 'application/json' },
+	        body: JSON.stringify(newContent)
+	      }).then(function (resp) {
+	        return resp.json();
+	      }).then(function (data) {
+	
+	        results = data;
+	        console.log(results, 'cleaned data');
+	      }).catch(function (err) {
+	        return console.log(err);
+	      });
+	      // console.log(stubData)
+	    }
+	  }, {
+	    key: 'displayComponents',
+	    value: function displayComponents() {
+	      if (this.state.imagePreviewUrl) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) }),
+	          _react2.default.createElement(_ImageHolder2.default, { url: this.state.imagePreviewUrl })
+	        );
+	      } else {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) })
+	        );
+	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        'div',
+	        'section',
 	        null,
-	        _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) }),
-	        _react2.default.createElement(_ImageHolder2.default, { url: this.state.imagePreviewURL })
+	        this.displayComponents()
 	      );
 	    }
 	  }]);
@@ -23076,7 +23094,7 @@
 	            } }),
 	          _react2.default.createElement('input', { onClick: function onClick(e) {
 	              return _this3.handleSubmit(e);
-	            },
+	            }, id: 'submit-btn',
 	            type: 'submit', name: 'submit', value: 'Submit', disabled: !this.state.file })
 	        )
 	      );
@@ -23282,7 +23300,7 @@
 
 	/* WEBPACK VAR INJECTION */(function(module) {/* REACT HOT LOADER */ if (true) { (function () { var ReactHotAPI = __webpack_require__(3), RootInstanceProvider = __webpack_require__(11), ReactMount = __webpack_require__(13), React = __webpack_require__(103); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 	
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -23294,8 +23312,14 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	var ImageHolder = function ImageHolder(url) {
-	  return _react2.default.createElement('div', null);
+	var ImageHolder = function ImageHolder(_ref) {
+	  var url = _ref.url;
+	
+	  return _react2.default.createElement(
+	    "div",
+	    { className: "image" },
+	    _react2.default.createElement("img", { src: url })
+	  );
 	};
 	
 	exports.default = ImageHolder;
