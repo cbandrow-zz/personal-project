@@ -7,36 +7,6 @@ const jsonData = (content) => {
         },
         "features": [
           {
-            "type": "TYPE_UNSPECIFIED",
-            "maxResults": 50
-          }, {
-            "type": "LANDMARK_DETECTION",
-            "maxResults": 50
-          }, {
-            "type": "FACE_DETECTION",
-            "maxResults": 50
-          }, {
-            "type": "LOGO_DETECTION",
-            "maxResults": 50
-          }, {
-            "type": "LABEL_DETECTION",
-            "maxResults": 50
-          }, {
-            "type": "TEXT_DETECTION",
-            "maxResults": 50
-          }, {
-            "type": "DOCUMENT_TEXT_DETECTION",
-            "maxResults": 50
-          }, {
-            "type": "SAFE_SEARCH_DETECTION",
-            "maxResults": 50
-          }, {
-            "type": "IMAGE_PROPERTIES",
-            "maxResults": 50
-          }, {
-            "type": "CROP_HINTS",
-            "maxResults": 50
-          }, {
             "type": "WEB_DETECTION",
             "maxResults": 50
           }
