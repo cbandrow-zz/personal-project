@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { render } from 'react-dom'
 import ImageImport from './ImageImport/ImageImport'
 import ImageHolder from './ImageHolder/ImageHolder'
-import HelperCleaner from './helpers/HelperCleaner'
+import Helper from './helpers/helper'
 import jsonData from './helpers/jsonData.js'
 import key2 from './helpers/apiKey.js'
 import $ from 'jquery'
@@ -10,33 +10,32 @@ import stubData from './helpers/stubbeddata.js'
 import vehicleData from './helpers/vehicleData.js'
 
 export default class App extends Component {
-  constructor(){
+  constructor(data){
     super()
-    this.Helper = new HelperCleaner()
+    this.helper = new Helper(data)
     this.state = {
       imagePreviewUrl: '',
-      vehicleData: {},
-      results: ''
+      apiResults: [],
+      completeVehicles: [],
+      thing: ''
     }
   }
 
-  componentDidMount() {
-    let results = this.cleanVehicleData()
+  componentDidMount(){
+    let results = this.helper.cleanVehicleData(vehicleData)
     this.setState({
-      vehicleData: results,
+      completeVehicles: this.helper.cleanVehicleData(vehicleData),
     })
-    console.log(results)
   }
 
   handleImageData(inputState){
     let content
     let statePromise = new Promise((resolve, reject)=>{
-      console.log('during promise')
+      console.log('loading...')
       this.setState({
         imagePreviewUrl: inputState.imagePreviewUrl,
       })
       setTimeout(function(){
-        console.log('resolved promise')
         resolve('promise resolved');
       }, 1500);
     })
@@ -44,24 +43,6 @@ export default class App extends Component {
       content = this.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '')
       this.sendDataCloudVision(content)
     })
-  }
-
-  cleanVehicleData(){
-    let reducedData = vehicleData.makes.reduce((acc, make) =>{
-      if(!acc[make.name]){
-        acc[make.name] = {
-          name: make.name,
-          models: make.models.map((model) =>{
-            return {
-              name: model.name,
-              id: model.id
-            }
-          })
-        }
-      }
-      return acc
-    }, [])
-    return reducedData
   }
 
   sendDataCloudVision(content){
@@ -73,14 +54,20 @@ export default class App extends Component {
        body: JSON.stringify(newContent),
      }).then((resp) => resp.json())
        .then((data) =>{
-
-       results = data
-       console.log(results, 'cleaned data')
+        results = this.helper.cleanResponseData(data)
+        console.log('...done')
+        return results
      })
+     .then((results =>{
+       this.setState({
+         apiResults: results
+       })
+     }))
      .catch(err => console.log(err))
-
-
+    // let newResults = this.cleanResponseData(stubData)
+    // console.log(newResults, "at send data")
   }
+
   displayComponents(){
     if(this.state.imagePreviewUrl){
       return (

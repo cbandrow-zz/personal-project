@@ -1,11 +1,10 @@
 import React, { Component } from 'react'
 import { render } from 'react-dom'
-import HelperCloudAPI from '../helpers/HelperCloudAPI'
+
 
 export default class ImportImage extends Component {
   constructor(data){
     super()
-    this.helper = new HelperCloudAPI(data)
     this.state ={
       file: '',
       imagePreviewUrl: '',
