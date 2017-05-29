@@ -8,9 +8,21 @@ module.exports = {
      index: [
        './app',
        './app/index.js',
-       './app/components/helpers/HelperCleaner.js',  'webpack-hot-middleware/client',
+       'webpack-hot-middleware/client',
        'webpack/hot/dev-server'
      ],
+    //  components: [
+    //    './app/components/ImageHolder/ImageHolder.js',
+    //    './app/components/ImageImport/ImageImport.js',
+    //    './app/components/App.js',
+    //    'webpack-hot-middleware/client',
+    //    'webpack/hot/dev-server'
+    //  ],
+    //  helpers: [
+    //    './app/components/helpers/HelperCleaner.js',
+    //    'webpack-hot-middleware/client',
+    //    'webpack/hot/dev-server'
+    //  ]
    },
   devtool: 'source-map',
   target: 'web',

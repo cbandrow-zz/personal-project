@@ -21,7 +21,7 @@ export default class HelperCleaner{
     return reducedData
   }
 
-  cleanResponseData(){
+  cleanResponseData(stubData){
     
   }
 }

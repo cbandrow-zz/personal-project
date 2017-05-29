@@ -12,7 +12,7 @@ import vehicleData from './helpers/vehicleData.js'
 export default class App extends Component {
   constructor(){
     super()
-    this.Helper = new HelperCleaner()
+    this.helper = new HelperCleaner()
     this.state = {
       imagePreviewUrl: '',
       vehicleData: {},
@@ -21,7 +21,7 @@ export default class App extends Component {
   }
 
   componentDidMount() {
-    let results = this.cleanVehicleData()
+    let results = this.Helper.cleanVehicleData(vehicleData)
     this.setState({
       vehicleData: results,
     })
@@ -46,41 +46,36 @@ export default class App extends Component {
     })
   }
 
-  cleanVehicleData(){
-    let reducedData = vehicleData.makes.reduce((acc, make) =>{
-      if(!acc[make.name]){
-        acc[make.name] = {
-          name: make.name,
-          models: make.models.map((model) =>{
-            return {
-              name: model.name,
-              id: model.id
-            }
-          })
-        }
+  sendDataCloudVision(content){
+    let newContent = jsonData(content)
+    // let results
+    //  fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key2}`,{
+    //    method: 'POST',
+    //    headers: {'Content-Type': 'application/json'},
+    //    body: JSON.stringify(newContent),
+    //  }).then((resp) => resp.json())
+    //    .then((data) =>{
+    //
+    //    results = data
+    //    console.log(results, 'cleaned data')
+    //  })
+    //  .catch(err => console.log(err))
+    let newResults = this.cleanResponseData(stubData)
+    console.log(newResults, "at send data")
+  }
+
+  cleanResponseData(respData){
+    let newResults = respData.responses[0].webDetection.webEntities.reduce((acc, value) =>{
+      if(!acc.includes(value.description)){
+        acc.push(value.description)
       }
       return acc
     }, [])
-    return reducedData
+
+    return newResults
+    console.log(respData.responses[0].webDetection.webEntities)
   }
 
-  sendDataCloudVision(content){
-    let newContent = jsonData(content)
-    let results
-     fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key2}`,{
-       method: 'POST',
-       headers: {'Content-Type': 'application/json'},
-       body: JSON.stringify(newContent),
-     }).then((resp) => resp.json())
-       .then((data) =>{
-
-       results = data
-       console.log(results, 'cleaned data')
-     })
-     .catch(err => console.log(err))
-
-
-  }
   displayComponents(){
     if(this.state.imagePreviewUrl){
       return (
