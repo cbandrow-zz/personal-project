@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { render } from 'react-dom'
 import ImageImport from './ImageImport/ImageImport'
 import ImageHolder from './ImageHolder/ImageHolder'
+import HelperCleaner from './helpers/HelperCleaner'
 import jsonData from './helpers/jsonData.js'
 import key2 from './helpers/apiKey.js'
 import $ from 'jquery'
@@ -11,6 +12,7 @@ import vehicleData from './helpers/vehicleData.js'
 export default class App extends Component {
   constructor(){
     super()
+    this.Helper = new HelperCleaner()
     this.state = {
       imagePreviewUrl: '',
       vehicleData: {},
@@ -76,7 +78,8 @@ export default class App extends Component {
        console.log(results, 'cleaned data')
      })
      .catch(err => console.log(err))
-    // console.log(stubData)
+
+
   }
   displayComponents(){
     if(this.state.imagePreviewUrl){
