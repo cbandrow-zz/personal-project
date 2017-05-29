@@ -8,7 +8,7 @@ module.exports = {
      index: [
        './app',
        './app/index.js',
-       './app/components/helpers/HelperCloudAPI.js',  'webpack-hot-middleware/client',
+       './app/components/helpers/HelperCleaner.js',  'webpack-hot-middleware/client',
        'webpack/hot/dev-server'
      ],
    },

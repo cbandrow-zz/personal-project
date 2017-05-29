@@ -1,7 +1,7 @@
 {
-  "name": "example-api",
+  "name": "Car-Tographer",
   "version": "1.0.0",
-  "description": "MeatMeet",
+  "description": "Personal Project",
   "scripts": {
     "build": "webpack --config ./webpack.config.js",
     "dev-server": "webpack-dev-server --hot --inline --content-base --history-api-fallback",
