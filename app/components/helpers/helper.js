@@ -1,4 +1,4 @@
-export default class HelperCleaner{
+export default class Helper{
   constructor(data){
     this.data = data || ''
   }
@@ -17,11 +17,20 @@ export default class HelperCleaner{
         }
       }
       return acc
-    }, [])
+    }, {})
+    console.log(reducedData)
     return reducedData
   }
 
-  cleanResponseData(stubData){
-    
+  cleanResponseData(respData){
+    let newResults = respData.responses[0].webDetection.webEntities.reduce((acc, value) =>{
+      if(!acc.includes(value.description)){
+        acc.push(value.description)
+      }
+      return acc
+    }, [])
+
+    return newResults
+    console.log(respData.responses[0].webDetection.webEntities)
   }
 }

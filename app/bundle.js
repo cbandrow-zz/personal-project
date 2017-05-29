@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "88d69e86db99986d28f7"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "f5cbc2abe5b20e109ff8"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22844,9 +22844,9 @@
 	
 	var _ImageHolder2 = _interopRequireDefault(_ImageHolder);
 	
-	var _HelperCleaner = __webpack_require__(200);
+	var _helper = __webpack_require__(200);
 	
-	var _HelperCleaner2 = _interopRequireDefault(_HelperCleaner);
+	var _helper2 = _interopRequireDefault(_helper);
 	
 	var _jsonData = __webpack_require__(201);
 	
@@ -22879,16 +22879,17 @@
 	var App = function (_Component) {
 	  _inherits(App, _Component);
 	
-	  function App() {
+	  function App(data) {
 	    _classCallCheck(this, App);
 	
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 	
-	    _this.helper = new _HelperCleaner2.default();
+	    _this.helper = new _helper2.default(data);
 	    _this.state = {
 	      imagePreviewUrl: '',
-	      vehicleData: {},
-	      results: ''
+	      apiResults: [],
+	      completeVehicles: [],
+	      thing: ''
 	    };
 	    return _this;
 	  }
@@ -22896,11 +22897,11 @@
 	  _createClass(App, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var results = this.Helper.cleanVehicleData(_vehicleData2.default);
+	      var results = this.helper.cleanVehicleData(_vehicleData2.default);
 	      this.setState({
-	        vehicleData: results
+	        completeVehicles: this.helper.cleanVehicleData(_vehicleData2.default)
 	      });
-	      console.log(results);
+	      console.log(this);
 	    }
 	  }, {
 	    key: 'handleImageData',
@@ -22909,12 +22910,11 @@
 	
 	      var content = void 0;
 	      var statePromise = new Promise(function (resolve, reject) {
-	        console.log('during promise');
+	        console.log('loading...');
 	        _this2.setState({
 	          imagePreviewUrl: inputState.imagePreviewUrl
 	        });
 	        setTimeout(function () {
-	          console.log('resolved promise');
 	          resolve('promise resolved');
 	        }, 1500);
 	      });
@@ -22926,34 +22926,30 @@
 	  }, {
 	    key: 'sendDataCloudVision',
 	    value: function sendDataCloudVision(content) {
-	      var newContent = (0, _jsonData2.default)(content);
-	      // let results
-	      //  fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key2}`,{
-	      //    method: 'POST',
-	      //    headers: {'Content-Type': 'application/json'},
-	      //    body: JSON.stringify(newContent),
-	      //  }).then((resp) => resp.json())
-	      //    .then((data) =>{
-	      //
-	      //    results = data
-	      //    console.log(results, 'cleaned data')
-	      //  })
-	      //  .catch(err => console.log(err))
-	      var newResults = this.cleanResponseData(_stubbeddata2.default);
-	      console.log(newResults, "at send data");
-	    }
-	  }, {
-	    key: 'cleanResponseData',
-	    value: function cleanResponseData(respData) {
-	      var newResults = respData.responses[0].webDetection.webEntities.reduce(function (acc, value) {
-	        if (!acc.includes(value.description)) {
-	          acc.push(value.description);
-	        }
-	        return acc;
-	      }, []);
+	      var _this3 = this;
 	
-	      return newResults;
-	      console.log(respData.responses[0].webDetection.webEntities);
+	      var newContent = (0, _jsonData2.default)(content);
+	      var results = void 0;
+	      fetch('https://vision.googleapis.com/v1/images:annotate?key=' + _apiKey2.default, {
+	        method: 'POST',
+	        headers: { 'Content-Type': 'application/json' },
+	        body: JSON.stringify(newContent)
+	      }).then(function (resp) {
+	        return resp.json();
+	      }).then(function (data) {
+	        results = _this3.helper.cleanResponseData(data);
+	        console.log(results, 'cleaned data');
+	        console.log('...done');
+	        return results;
+	      }).then(function (results) {
+	        _this3.setState({
+	          apiResults: results
+	        });
+	      }).catch(function (err) {
+	        return console.log(err);
+	      });
+	      // let newResults = this.cleanResponseData(stubData)
+	      // console.log(newResults, "at send data")
 	    }
 	  }, {
 	    key: 'displayComponents',
@@ -23277,14 +23273,14 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	var HelperCleaner = function () {
-	  function HelperCleaner(data) {
-	    _classCallCheck(this, HelperCleaner);
+	var Helper = function () {
+	  function Helper(data) {
+	    _classCallCheck(this, Helper);
 	
 	    this.data = data || '';
 	  }
 	
-	  _createClass(HelperCleaner, [{
+	  _createClass(Helper, [{
 	    key: 'cleanVehicleData',
 	    value: function cleanVehicleData(vehicleData) {
 	      var reducedData = vehicleData.makes.reduce(function (acc, make) {
@@ -23300,20 +23296,31 @@
 	          };
 	        }
 	        return acc;
-	      }, []);
+	      }, {});
+	      console.log(reducedData);
 	      return reducedData;
 	    }
 	  }, {
 	    key: 'cleanResponseData',
-	    value: function cleanResponseData(stubData) {}
+	    value: function cleanResponseData(respData) {
+	      var newResults = respData.responses[0].webDetection.webEntities.reduce(function (acc, value) {
+	        if (!acc.includes(value.description)) {
+	          acc.push(value.description);
+	        }
+	        return acc;
+	      }, []);
+	
+	      return newResults;
+	      console.log(respData.responses[0].webDetection.webEntities);
+	    }
 	  }]);
 	
-	  return HelperCleaner;
+	  return Helper;
 	}();
 	
-	exports.default = HelperCleaner;
+	exports.default = Helper;
 	
-	/* REACT HOT LOADER */ }).call(this); } finally { if (true) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = __webpack_require__(196); if (makeExportsHot(module, __webpack_require__(103))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "HelperCleaner.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+	/* REACT HOT LOADER */ }).call(this); } finally { if (true) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = __webpack_require__(196); if (makeExportsHot(module, __webpack_require__(103))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "helper.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
 
 /***/ }),
