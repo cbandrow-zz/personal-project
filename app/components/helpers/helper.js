@@ -18,7 +18,6 @@ export default class Helper{
       }
       return acc
     }, {})
-    console.log(reducedData)
     return reducedData
   }
 
@@ -32,5 +31,17 @@ export default class Helper{
 
     return newResults
     console.log(respData.responses[0].webDetection.webEntities)
+  }
+
+  compareData(apiData, carData){
+    console.log(apiData)
+    let carDataKeys = Object.keys(carData)
+    console.log(carDataKeys);
+
+    let results = apiData.filter((data, i) =>{
+      data.includes(carDataKeys)
+    })
+    console.log(results)
+
   }
 }

@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "f5cbc2abe5b20e109ff8"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "aa923b1ab41186e140e7"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22888,8 +22888,7 @@
 	    _this.state = {
 	      imagePreviewUrl: '',
 	      apiResults: [],
-	      completeVehicles: [],
-	      thing: ''
+	      completeVehicles: []
 	    };
 	    return _this;
 	  }
@@ -22901,7 +22900,6 @@
 	      this.setState({
 	        completeVehicles: this.helper.cleanVehicleData(_vehicleData2.default)
 	      });
-	      console.log(this);
 	    }
 	  }, {
 	    key: 'handleImageData',
@@ -22938,13 +22936,13 @@
 	        return resp.json();
 	      }).then(function (data) {
 	        results = _this3.helper.cleanResponseData(data);
-	        console.log(results, 'cleaned data');
 	        console.log('...done');
 	        return results;
 	      }).then(function (results) {
 	        _this3.setState({
 	          apiResults: results
 	        });
+	        var compared = _this3.helper.compareData(results, _this3.state.completeVehicles);
 	      }).catch(function (err) {
 	        return console.log(err);
 	      });
@@ -23297,7 +23295,6 @@
 	        }
 	        return acc;
 	      }, {});
-	      console.log(reducedData);
 	      return reducedData;
 	    }
 	  }, {
@@ -23312,6 +23309,18 @@
 	
 	      return newResults;
 	      console.log(respData.responses[0].webDetection.webEntities);
+	    }
+	  }, {
+	    key: 'compareData',
+	    value: function compareData(apiData, carData) {
+	      console.log(apiData);
+	      var carDataKeys = Object.keys(carData);
+	      console.log(carDataKeys);
+	
+	      var results = apiData.filter(function (data, i) {
+	        return data.includes(carDataKeys[i]);
+	      });
+	      console.log(results);
 	    }
 	  }]);
 	

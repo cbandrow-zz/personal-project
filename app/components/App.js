@@ -17,7 +17,6 @@ export default class App extends Component {
       imagePreviewUrl: '',
       apiResults: [],
       completeVehicles: [],
-      thing: ''
     }
   }
 
@@ -45,6 +44,17 @@ export default class App extends Component {
     })
   }
 
+  compareData(apiData, carData){
+    console.log(apiData)
+    let carDataKeys = Object.keys(carData)
+    console.log(carDataKeys);
+
+    let results = apiData.filter((data, i) =>{
+      data.includes()
+    })
+    console.log(results)
+  }
+
   sendDataCloudVision(content){
     let newContent = jsonData(content)
     let results
@@ -62,6 +72,7 @@ export default class App extends Component {
        this.setState({
          apiResults: results
        })
+      let compared = this.compareData(results, this.state.completeVehicles)
      }))
      .catch(err => console.log(err))
     // let newResults = this.cleanResponseData(stubData)
