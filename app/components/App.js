@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { render } from 'react-dom'
 import ImageImport from './ImageImport/ImageImport'
 import ImageHolder from './ImageHolder/ImageHolder'
+import ResultsHolder from './ResultsHolder/ResultsHolder'
 import Helper from './helpers/helper'
 import jsonData from './helpers/jsonData.js'
 import key2 from './helpers/apiKey.js'
@@ -17,6 +18,7 @@ export default class App extends Component {
       imagePreviewUrl: '',
       apiResults: [],
       completeVehicles: [],
+      compareResults: [],
     }
   }
 
@@ -62,6 +64,9 @@ export default class App extends Component {
          apiResults: results
        })
       let compared = this.helper.getPotentialMakes(results, this.state.completeVehicles)
+      this.setState({
+        compareResults: compared,
+      })
       console.log(compared)
      }))
      .catch(err => console.log(err))
@@ -75,9 +80,10 @@ export default class App extends Component {
         <div>
           <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
           <ImageHolder url = {this.state.imagePreviewUrl}/>
+          <ResultsHolder results = {this.state.compareResults}/>
         </div>
       )
-    }else {
+    } else {
       return(
         <div>
           <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
