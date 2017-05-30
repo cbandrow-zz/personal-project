@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "2eb55dc53b738d9c2c95"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "1f4af6ec4bb733c429d8"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22921,39 +22921,44 @@
 	        _this2.sendDataCloudVision(content);
 	      });
 	    }
-	  }, {
-	    key: 'compareData',
-	    value: function compareData(apiData, carData) {
-	      var carDataKeys = Object.keys(carData);
 	
-	      var matches = [];
-	      apiData.forEach(function (data, i) {
-	        carDataKeys.forEach(function (make, i) {
-	          if (data != null && data.toLowerCase().includes(make.toLowerCase())) {
-	            matches.push(make);
-	          }
-	        });
-	      });
+	    // compareData(apiData, carData){
+	    //   let carDataKeys = Object.keys(carData)
+	    //
+	    //   let matches = []
+	    //   apiData.forEach((data, i) =>{
+	    //      carDataKeys.forEach((make, i) =>{
+	    //       if(data != null && data.toLowerCase().includes(make.toLowerCase()) ){
+	    //         matches.push(make)
+	    //       }
+	    //     })
+	    //   })
+	    //
+	    //   let reducedMatches = matches.filter((match, i, arr) => {
+	    //      return arr.indexOf(match) === i
+	    //   })
+	    //
+	    //   let results = []
+	    //   apiData.forEach((data, i) =>{
+	    //     reducedMatches.forEach((match)=>{
+	    //       let formatData = data.toLowerCase().replace(`${match.toLowerCase()}`, '')
+	    //       carData[match].models.forEach((model)=>{
+	    //         let formatModelName = model.name.toLowerCase()
+	    //         let formatModelId = model.id.toLowerCase()
+	    //
+	    //         if(formatData.includes(formatModelName)){
+	    //           results.push(model.id)
+	    //         }
+	    //       })
+	    //     })
+	    //    })
+	    //
+	    //    let reducedResults = results.filter((result, i, arr) =>{
+	    //      return arr.indexOf(result) === i;
+	    //    })
+	    //    console.log(reducedResults)
+	    //  }
 	
-	      var reducedMatches = matches.filter(function (match, i, arr) {
-	        return arr.indexOf(match) === i;
-	      });
-	
-	      var results = [];
-	      apiData.forEach(function (data, i) {
-	        reducedMatches.forEach(function (match) {
-	          var formatData = data.replace('' + match.toLowerCase(), '');
-	          carData[match].models.forEach(function (model) {
-	            var formatModelName = model.name.toLowerCase();
-	            var formatModelId = model.id.toLowerCase();
-	            if (formatModelId.includes(data) || formatModelName.includes(data)) {
-	              results.push(model.id);
-	            }
-	          });
-	        });
-	      });
-	      console.log(results);
-	    }
 	  }, {
 	    key: 'sendDataCloudVision',
 	    value: function sendDataCloudVision(content) {
@@ -22975,7 +22980,8 @@
 	        _this3.setState({
 	          apiResults: results
 	        });
-	        var compared = _this3.compareData(results, _this3.state.completeVehicles);
+	        var compared = _this3.helper.getPotentialMakes(results, _this3.state.completeVehicles);
+	        console.log(compared);
 	      }).catch(function (err) {
 	        return console.log(err);
 	      });
@@ -23343,20 +23349,47 @@
 	      return newResults;
 	    }
 	  }, {
-	    key: 'compareData',
-	    value: function compareData(apiData, carData) {
-	      //  carData[reducedMatches[i]].models.forEach((model) =>{
-	      //    console.log(data)
-	      //    console.log(model.id, model.name)
-	      //
-	      //    if(model.name.toLowerCase().includes(data) || model.id.toLowerCase().includes(data)){
-	      //      results.push(model.id)
-	      //    }
-	      //
-	      //  })
-	      //  if(cleanData.toLowerCase().includes(model.name.toLowerCase()) || cleanData.toLowerCase().includes(model.id.toLowerCase())){
-	      //    results.push(model.id)
-	      //  }
+	    key: 'getPotentialMakes',
+	    value: function getPotentialMakes(apiData, carData) {
+	      var carDataKeys = Object.keys(carData);
+	
+	      var matches = [];
+	      apiData.forEach(function (data, i) {
+	        carDataKeys.forEach(function (make, i) {
+	          if (data != null && data.toLowerCase().includes(make.toLowerCase())) {
+	            matches.push(make);
+	          }
+	        });
+	      });
+	
+	      var reducedMatches = matches.filter(function (match, i, arr) {
+	        return arr.indexOf(match) === i;
+	      });
+	
+	      return this.getPotentialModels(apiData, carData, reducedMatches);
+	    }
+	  }, {
+	    key: 'getPotentialModels',
+	    value: function getPotentialModels(apiData, carData, reducedMatches) {
+	      var results = [];
+	      apiData.forEach(function (data, i) {
+	        reducedMatches.forEach(function (match) {
+	          var formatData = data.toLowerCase().replace('' + match.toLowerCase(), '');
+	          carData[match].models.forEach(function (model) {
+	            var formatModelName = model.name.toLowerCase();
+	            var formatModelId = model.id.toLowerCase();
+	
+	            if (formatData.includes(formatModelName)) {
+	              results.push(model.id);
+	            }
+	          });
+	        });
+	      });
+	
+	      var reducedResults = results.filter(function (result, i, arr) {
+	        return arr.indexOf(result) === i;
+	      });
+	      return reducedResults;
 	    }
 	  }]);
 	

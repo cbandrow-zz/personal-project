@@ -32,18 +32,44 @@ export default class Helper{
     return newResults
   }
 
-  compareData(apiData, carData){
-    //  carData[reducedMatches[i]].models.forEach((model) =>{
-    //    console.log(data)
-    //    console.log(model.id, model.name)
-     //
-    //    if(model.name.toLowerCase().includes(data) || model.id.toLowerCase().includes(data)){
-    //      results.push(model.id)
-    //    }
-     //
-    //  })
-    //  if(cleanData.toLowerCase().includes(model.name.toLowerCase()) || cleanData.toLowerCase().includes(model.id.toLowerCase())){
-    //    results.push(model.id)
-    //  }
+  getPotentialMakes(apiData, carData){
+    let carDataKeys = Object.keys(carData)
+
+    let matches = []
+    apiData.forEach((data, i) =>{
+       carDataKeys.forEach((make, i) =>{
+        if(data != null && data.toLowerCase().includes(make.toLowerCase()) ){
+          matches.push(make)
+        }
+      })
+    })
+
+    let reducedMatches = matches.filter((match, i, arr) => {
+	     return arr.indexOf(match) === i
+    })
+
+    return this.getPotentialModels(apiData, carData, reducedMatches)
+  }
+
+  getPotentialModels(apiData, carData, reducedMatches){
+    let results = []
+    apiData.forEach((data, i) =>{
+      reducedMatches.forEach((match)=>{
+        let formatData = data.toLowerCase().replace(`${match.toLowerCase()}`, '')
+        carData[match].models.forEach((model)=>{
+          let formatModelName = model.name.toLowerCase()
+          let formatModelId = model.id.toLowerCase()
+
+          if(formatData.includes(formatModelName)){
+            results.push(model.id)
+          }
+        })
+      })
+    })
+
+    let reducedResults = results.filter((result, i, arr) =>{
+      return arr.indexOf(result) === i;
+    })
+    return reducedResults
   }
 }

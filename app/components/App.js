@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { render } from 'react-dom'
 import ImageImport from './ImageImport/ImageImport'
 import ImageHolder from './ImageHolder/ImageHolder'
+import ResultsHolder from './ResultsHolder/ResultsHolder'
 import Helper from './helpers/helper'
 import jsonData from './helpers/jsonData.js'
 import key2 from './helpers/apiKey.js'
@@ -17,6 +18,7 @@ export default class App extends Component {
       imagePreviewUrl: '',
       apiResults: [],
       completeVehicles: [],
+      compareResults: [],
     }
   }
 
@@ -44,44 +46,6 @@ export default class App extends Component {
     })
   }
 
-  compareData(apiData, carData){
-    let carDataKeys = Object.keys(carData)
-
-    let matches = []
-    apiData.forEach((data, i) =>{
-       carDataKeys.forEach((make, i) =>{
-        if(data != null && data.toLowerCase().includes(make.toLowerCase()) ){
-          matches.push(make)
-        }
-      })
-    })
-
-    let reducedMatches = matches.filter((match, i, arr) => {
-	     return arr.indexOf(match) === i;
-    })
-
-    let results = []
-    apiData.forEach((data, i) =>{
-      reducedMatches.forEach((match)=>{
-        let formatData = data.toLowerCase().replace(`${match.toLowerCase()}`, '')
-        carData[match].models.forEach((model)=>{
-          let formatModelName = model.name.toLowerCase()
-          let formatModelId = model.id.toLowerCase()
-
-          if(formatData.includes(formatModelName)){
-            results.push(model.id)
-          }
-        })
-      })
-     })
-    //  console.log(results)
-
-     let reducedResults = results.filter((result, i, arr) =>{
-       return arr.indexOf(result) === i;
-     })
-     console.log(reducedResults)
-   }
-
   sendDataCloudVision(content){
     let newContent = jsonData(content)
     let results
@@ -99,7 +63,11 @@ export default class App extends Component {
        this.setState({
          apiResults: results
        })
-      let compared = this.compareData(results, this.state.completeVehicles)
+      let compared = this.helper.getPotentialMakes(results, this.state.completeVehicles)
+      this.setState({
+        compareResults: compared,
+      })
+      console.log(compared)
      }))
      .catch(err => console.log(err))
     // let newResults = this.cleanResponseData(stubData)
@@ -112,9 +80,10 @@ export default class App extends Component {
         <div>
           <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
           <ImageHolder url = {this.state.imagePreviewUrl}/>
+          <ResultsHolder results = {this.state.compareResults}/>
         </div>
       )
-    }else {
+    } else {
       return(
         <div>
           <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
