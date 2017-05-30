@@ -6,7 +6,6 @@ import ResultsHolder from './ResultsHolder/ResultsHolder'
 import Helper from './helpers/helper'
 import jsonData from './helpers/jsonData.js'
 import key2 from './helpers/apiKey.js'
-import $ from 'jquery'
 import stubData from './helpers/stubbeddata.js'
 import vehicleData from './helpers/vehicleData.js'
 
@@ -80,7 +79,6 @@ export default class App extends Component {
         <div>
           <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
           <ImageHolder url = {this.state.imagePreviewUrl}/>
-          <ResultsHolder results = {this.state.compareResults}/>
         </div>
       )
     } else {
@@ -96,6 +94,7 @@ export default class App extends Component {
     return (
       <section>
         {this.displayComponents()}
+        <ResultsHolder cars = {this.state.compareResults}/>
       </section>
     )
   }

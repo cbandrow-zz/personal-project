@@ -11,11 +11,6 @@ const jsonData = (content) => {
             "maxResults": 50
           }
         ],
-        "imageContext": {
-          "cropHintsParams": {
-            "aspectRatios": [0.8, 1, 1.2]
-          }
-        }
       }
     ]
   }
