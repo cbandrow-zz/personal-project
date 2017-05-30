@@ -18,19 +18,32 @@ export default class Helper{
       }
       return acc
     }, {})
-    console.log(reducedData)
     return reducedData
   }
 
   cleanResponseData(respData){
     let newResults = respData.responses[0].webDetection.webEntities.reduce((acc, value) =>{
-      if(!acc.includes(value.description)){
+      if(!acc.includes(value.description) && value.description != null){
         acc.push(value.description)
       }
       return acc
     }, [])
 
     return newResults
-    console.log(respData.responses[0].webDetection.webEntities)
+  }
+
+  compareData(apiData, carData){
+    //  carData[reducedMatches[i]].models.forEach((model) =>{
+    //    console.log(data)
+    //    console.log(model.id, model.name)
+     //
+    //    if(model.name.toLowerCase().includes(data) || model.id.toLowerCase().includes(data)){
+    //      results.push(model.id)
+    //    }
+     //
+    //  })
+    //  if(cleanData.toLowerCase().includes(model.name.toLowerCase()) || cleanData.toLowerCase().includes(model.id.toLowerCase())){
+    //    results.push(model.id)
+    //  }
   }
 }

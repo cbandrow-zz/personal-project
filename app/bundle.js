@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "f5cbc2abe5b20e109ff8"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "2eb55dc53b738d9c2c95"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22888,8 +22888,7 @@
 	    _this.state = {
 	      imagePreviewUrl: '',
 	      apiResults: [],
-	      completeVehicles: [],
-	      thing: ''
+	      completeVehicles: []
 	    };
 	    return _this;
 	  }
@@ -22901,7 +22900,6 @@
 	      this.setState({
 	        completeVehicles: this.helper.cleanVehicleData(_vehicleData2.default)
 	      });
-	      console.log(this);
 	    }
 	  }, {
 	    key: 'handleImageData',
@@ -22924,6 +22922,39 @@
 	      });
 	    }
 	  }, {
+	    key: 'compareData',
+	    value: function compareData(apiData, carData) {
+	      var carDataKeys = Object.keys(carData);
+	
+	      var matches = [];
+	      apiData.forEach(function (data, i) {
+	        carDataKeys.forEach(function (make, i) {
+	          if (data != null && data.toLowerCase().includes(make.toLowerCase())) {
+	            matches.push(make);
+	          }
+	        });
+	      });
+	
+	      var reducedMatches = matches.filter(function (match, i, arr) {
+	        return arr.indexOf(match) === i;
+	      });
+	
+	      var results = [];
+	      apiData.forEach(function (data, i) {
+	        reducedMatches.forEach(function (match) {
+	          var formatData = data.replace('' + match.toLowerCase(), '');
+	          carData[match].models.forEach(function (model) {
+	            var formatModelName = model.name.toLowerCase();
+	            var formatModelId = model.id.toLowerCase();
+	            if (formatModelId.includes(data) || formatModelName.includes(data)) {
+	              results.push(model.id);
+	            }
+	          });
+	        });
+	      });
+	      console.log(results);
+	    }
+	  }, {
 	    key: 'sendDataCloudVision',
 	    value: function sendDataCloudVision(content) {
 	      var _this3 = this;
@@ -22938,13 +22969,13 @@
 	        return resp.json();
 	      }).then(function (data) {
 	        results = _this3.helper.cleanResponseData(data);
-	        console.log(results, 'cleaned data');
 	        console.log('...done');
 	        return results;
 	      }).then(function (results) {
 	        _this3.setState({
 	          apiResults: results
 	        });
+	        var compared = _this3.compareData(results, _this3.state.completeVehicles);
 	      }).catch(function (err) {
 	        return console.log(err);
 	      });
@@ -23297,21 +23328,35 @@
 	        }
 	        return acc;
 	      }, {});
-	      console.log(reducedData);
 	      return reducedData;
 	    }
 	  }, {
 	    key: 'cleanResponseData',
 	    value: function cleanResponseData(respData) {
 	      var newResults = respData.responses[0].webDetection.webEntities.reduce(function (acc, value) {
-	        if (!acc.includes(value.description)) {
+	        if (!acc.includes(value.description) && value.description != null) {
 	          acc.push(value.description);
 	        }
 	        return acc;
 	      }, []);
 	
 	      return newResults;
-	      console.log(respData.responses[0].webDetection.webEntities);
+	    }
+	  }, {
+	    key: 'compareData',
+	    value: function compareData(apiData, carData) {
+	      //  carData[reducedMatches[i]].models.forEach((model) =>{
+	      //    console.log(data)
+	      //    console.log(model.id, model.name)
+	      //
+	      //    if(model.name.toLowerCase().includes(data) || model.id.toLowerCase().includes(data)){
+	      //      results.push(model.id)
+	      //    }
+	      //
+	      //  })
+	      //  if(cleanData.toLowerCase().includes(model.name.toLowerCase()) || cleanData.toLowerCase().includes(model.id.toLowerCase())){
+	      //    results.push(model.id)
+	      //  }
 	    }
 	  }]);
 	
