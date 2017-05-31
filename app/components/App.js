@@ -18,12 +18,14 @@ export default class App extends Component {
       apiResults: [],
       completeVehicles: [],
       compareResults: [],
+      loadingStatus: false,
     }
   }
 
   componentDidMount(){
     let results = this.helper.cleanVehicleData(vehicleData)
     this.setState({
+      loadingStatus: true,
       completeVehicles: this.helper.cleanVehicleData(vehicleData),
     })
   }
@@ -65,6 +67,7 @@ export default class App extends Component {
       let compared = this.helper.getPotentialMakes(results, this.state.completeVehicles)
       this.setState({
         compareResults: compared,
+        loadingStatus: false,
       })
       console.log(compared)
      }))
@@ -78,7 +81,8 @@ export default class App extends Component {
       return (
         <div className = 'content-holder'>
           <ImageHolder url = {this.state.imagePreviewUrl}/>
-          <ResultsHolder cars = {this.state.compareResults}/>
+          <ResultsHolder cars = {this.state.compareResults}
+          loadingStatus = {this.state.loadingStatus}/>
         </div>
       )
     }

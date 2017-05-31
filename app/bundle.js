@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "c2a82f75368833668f8b"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "cbd0dfdb4145981dd090"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22889,7 +22889,8 @@
 	      imagePreviewUrl: '',
 	      apiResults: [],
 	      completeVehicles: [],
-	      compareResults: []
+	      compareResults: [],
+	      loadingStatus: false
 	    };
 	    return _this;
 	  }
@@ -22899,6 +22900,7 @@
 	    value: function componentDidMount() {
 	      var results = this.helper.cleanVehicleData(_vehicleData2.default);
 	      this.setState({
+	        loadingStatus: true,
 	        completeVehicles: this.helper.cleanVehicleData(_vehicleData2.default)
 	      });
 	    }
@@ -22945,7 +22947,8 @@
 	        });
 	        var compared = _this3.helper.getPotentialMakes(results, _this3.state.completeVehicles);
 	        _this3.setState({
-	          compareResults: compared
+	          compareResults: compared,
+	          loadingStatus: false
 	        });
 	        console.log(compared);
 	      }).catch(function (err) {
@@ -22960,9 +22963,10 @@
 	      if (this.state.imagePreviewUrl) {
 	        return _react2.default.createElement(
 	          'div',
-	          { className: 'image-holder' },
+	          { className: 'content-holder' },
 	          _react2.default.createElement(_ImageHolder2.default, { url: this.state.imagePreviewUrl }),
-	          _react2.default.createElement(_ResultsHolder2.default, { cars: this.state.compareResults })
+	          _react2.default.createElement(_ResultsHolder2.default, { cars: this.state.compareResults,
+	            loadingStatus: this.state.loadingStatus })
 	        );
 	      }
 	    }
@@ -23285,8 +23289,8 @@
 	
 	  return _react2.default.createElement(
 	    "div",
-	    { className: "image" },
-	    _react2.default.createElement("img", { src: url })
+	    { className: "image-holder" },
+	    _react2.default.createElement("img", { id: "image", src: url })
 	  );
 	};
 	
@@ -23318,12 +23322,13 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	var ResultsHolder = function ResultsHolder(_ref) {
-	  var cars = _ref.cars;
+	  var cars = _ref.cars,
+	      loadingStatus = _ref.loadingStatus;
 	
 	  return _react2.default.createElement(
 	    'section',
 	    { className: 'results-holder' },
-	    loading(cars),
+	    loading(loadingStatus),
 	    lengthMessage(cars),
 	    cars.map(function (car, i) {
 	      return _react2.default.createElement(
@@ -23351,13 +23356,15 @@
 	  }
 	};
 	
-	var loading = function loading(cars) {
-	  if (!cars) {
+	var loading = function loading(loadingStatus) {
+	  if (loadingStatus === true) {
 	    return _react2.default.createElement(
 	      'div',
 	      null,
-	      _react2.default.createElement('img', { src: '../assets/images/loading.gif' })
+	      _react2.default.createElement('img', { width: '100px', src: '../../assets/images/loading.gif' })
 	    );
+	  } else {
+	    return null;
 	  }
 	};
 	

@@ -1,11 +1,11 @@
 import React from 'react'
 import Results from '../Results/Results'
 
-const ResultsHolder = ({cars}) =>{
+const ResultsHolder = ({cars, loadingStatus}) =>{
   return (
     <section className = "results-holder">
-      {loading(cars)}
       {lengthMessage(cars)}
+      {loading(loadingStatus)}
       {cars.map((car, i)=>{
         return(
           <div key = {i}>
@@ -29,12 +29,17 @@ const lengthMessage = (cars)=>{
   }
 }
 
-const loading = (cars) => {
-  if(!cars){
+const loading = (loadingStatus) => {
+  if(loadingStatus === true){
     return (
-      <div>
-        <img src = "../assets/images/loading.gif"/>
+      <div className = "loading-image">
+        <img width = '100px' src = "../../assets/images/loading.gif"/>
+        <h3>Loading Results...</h3>
       </div>
+    )
+  } else {
+    return (
+      null
     )
   }
 }
