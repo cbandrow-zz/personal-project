@@ -47,7 +47,6 @@ export default class Helper{
     let reducedMatches = matches.filter((match, i, arr) => {
 	     return arr.indexOf(match) === i
     })
-
     return this.getPotentialModels(apiData, carData, reducedMatches)
   }
 

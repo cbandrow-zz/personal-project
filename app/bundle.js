@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "81ef41648f85c41bd001"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "5ffc2b27de942d396fd3"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22960,26 +22960,44 @@
 	      if (this.state.imagePreviewUrl) {
 	        return _react2.default.createElement(
 	          'div',
-	          null,
-	          _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) }),
+	          { className: 'image-holder' },
 	          _react2.default.createElement(_ImageHolder2.default, { url: this.state.imagePreviewUrl })
 	        );
+	      }
+	    }
+	  }, {
+	    key: 'shiftInput',
+	    value: function shiftInput() {
+	      if (!this.state.imagePreviewUrl) {
+	        return 'none';
 	      } else {
-	        return _react2.default.createElement(
-	          'div',
-	          null,
-	          _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) })
-	        );
+	        return 'inline-block';
 	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
-	        'section',
+	        'main',
 	        null,
-	        this.displayComponents(),
-	        _react2.default.createElement(_ResultsHolder2.default, { cars: this.state.compareResults })
+	        _react2.default.createElement(
+	          'header',
+	          null,
+	          _react2.default.createElement(
+	            'h1',
+	            null,
+	            'Car-Tographer'
+	          ),
+	          _react2.default.createElement(_ImageImport2.default, { className: 'upload-header',
+	            display: this.shiftInput(), handleImageData: this.handleImageData.bind(this) })
+	        ),
+	        _react2.default.createElement(
+	          'section',
+	          { className: 'main-content' },
+	          _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) }),
+	          this.displayComponents(),
+	          _react2.default.createElement(_ResultsHolder2.default, { cars: this.state.compareResults })
+	        )
 	      );
 	    }
 	  }]);
@@ -23075,7 +23093,7 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { className: 'upload' },
 	        _react2.default.createElement(
 	          'form',
 	          { id: 'fileform', onSubmit: function onSubmit(e) {
@@ -23290,10 +23308,10 @@
 	    'section',
 	    { className: 'results-holder' },
 	    lengthMessage(cars),
-	    cars.map(function (car) {
+	    cars.map(function (car, i) {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
+	        { key: i },
 	        _react2.default.createElement(_Results2.default, { car: car })
 	      );
 	    })
@@ -23429,7 +23447,6 @@
 	      var reducedMatches = matches.filter(function (match, i, arr) {
 	        return arr.indexOf(match) === i;
 	      });
-	
 	      return this.getPotentialModels(apiData, carData, reducedMatches);
 	    }
 	  }, {

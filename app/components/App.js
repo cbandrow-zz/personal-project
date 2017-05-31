@@ -76,26 +76,46 @@ export default class App extends Component {
   displayComponents(){
     if(this.state.imagePreviewUrl){
       return (
-        <div>
-          <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
+        <div className = 'image-holder'>
           <ImageHolder url = {this.state.imagePreviewUrl}/>
-        </div>
-      )
-    } else {
-      return(
-        <div>
-          <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
         </div>
       )
     }
   }
 
+  moveUpload(){
+    if(!this.state.imagePreviewUrl){
+      return 'no-upload'
+    } else {
+      return 'display-upload'
+    }
+  }
+
+  removeUpload(){
+    if(this.state.imagePreviewUrl){
+      return 'no-upload'
+    } else {
+      return 'display-upload'
+    }
+  }
+
   render() {
     return (
-      <section>
-        {this.displayComponents()}
-        <ResultsHolder cars = {this.state.compareResults}/>
-      </section>
+      <main>
+        <header>
+          <h1>Car-Tographer</h1>
+          <div className = {`${this.moveUpload()} header-upload`}>
+            <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
+          </div>
+        </header>
+        <section className = "main-content">
+          <div className = {`${this.removeUpload()} body-upload`}>
+            <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
+          </div>
+          {this.displayComponents()}
+          <ResultsHolder cars = {this.state.compareResults}/>
+        </section>
+      </main>
     )
   }
 }
