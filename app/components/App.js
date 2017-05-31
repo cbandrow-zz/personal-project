@@ -6,7 +6,6 @@ import ResultsHolder from './ResultsHolder/ResultsHolder'
 import Helper from './helpers/helper'
 import jsonData from './helpers/jsonData.js'
 import key2 from './helpers/apiKey.js'
-import $ from 'jquery'
 import stubData from './helpers/stubbeddata.js'
 import vehicleData from './helpers/vehicleData.js'
 
@@ -19,6 +18,7 @@ export default class App extends Component {
       apiResults: [],
       completeVehicles: [],
       compareResults: [],
+      loadingStatus: false,
     }
   }
 
@@ -34,6 +34,9 @@ export default class App extends Component {
     let statePromise = new Promise((resolve, reject)=>{
       console.log('loading...')
       this.setState({
+        apiResults: [],
+        compareResults: [],
+        loadingStatus: true,
         imagePreviewUrl: inputState.imagePreviewUrl,
       })
       setTimeout(function(){
@@ -66,6 +69,7 @@ export default class App extends Component {
       let compared = this.helper.getPotentialMakes(results, this.state.completeVehicles)
       this.setState({
         compareResults: compared,
+        loadingStatus: false,
       })
       console.log(compared)
      }))
@@ -77,26 +81,47 @@ export default class App extends Component {
   displayComponents(){
     if(this.state.imagePreviewUrl){
       return (
-        <div>
-          <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
+        <div className = 'content-holder'>
           <ImageHolder url = {this.state.imagePreviewUrl}/>
-          <ResultsHolder results = {this.state.compareResults}/>
-        </div>
-      )
-    } else {
-      return(
-        <div>
-          <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
+          <ResultsHolder cars = {this.state.compareResults}
+          loadingStatus = {this.state.loadingStatus}/>
         </div>
       )
     }
   }
 
+  moveUpload(){
+    if(!this.state.imagePreviewUrl){
+      return 'no-upload'
+    } else {
+      return 'display-upload'
+    }
+  }
+
+  removeUpload(){
+    if(this.state.imagePreviewUrl){
+      return 'no-upload'
+    } else {
+      return 'display-upload'
+    }
+  }
+
   render() {
     return (
-      <section>
-        {this.displayComponents()}
-      </section>
+      <main>
+        <header>
+          <h1>Car-Tographer</h1>
+          <div className = {`${this.moveUpload()} header-upload`}>
+            <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
+          </div>
+        </header>
+        <section className = "main-content">
+          <div className = {`${this.removeUpload()} body-upload`}>
+            <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
+          </div>
+          {this.displayComponents()}
+        </section>
+      </main>
     )
   }
 }

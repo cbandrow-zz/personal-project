@@ -2,8 +2,8 @@ import React from 'react'
 
 const ImageHolder = ({url}) => {
   return(
-    <div className = "image">
-      <img src = {url} />
+    <div className = "image-holder">
+      <img id="image" src = {url} />
     </div>
   )
 }

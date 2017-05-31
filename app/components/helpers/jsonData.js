@@ -8,14 +8,9 @@ const jsonData = (content) => {
         "features": [
           {
             "type": "WEB_DETECTION",
-            "maxResults": 50
+            "maxResults": 10,
           }
         ],
-        "imageContext": {
-          "cropHintsParams": {
-            "aspectRatios": [0.8, 1, 1.2]
-          }
-        }
       }
     ]
   }
