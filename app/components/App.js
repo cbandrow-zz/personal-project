@@ -76,8 +76,9 @@ export default class App extends Component {
   displayComponents(){
     if(this.state.imagePreviewUrl){
       return (
-        <div className = 'image-holder'>
+        <div className = 'content-holder'>
           <ImageHolder url = {this.state.imagePreviewUrl}/>
+          <ResultsHolder cars = {this.state.compareResults}/>
         </div>
       )
     }
@@ -113,7 +114,6 @@ export default class App extends Component {
             <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
           </div>
           {this.displayComponents()}
-          <ResultsHolder cars = {this.state.compareResults}/>
         </section>
       </main>
     )

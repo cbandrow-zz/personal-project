@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "5ffc2b27de942d396fd3"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "c2a82f75368833668f8b"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22961,17 +22961,27 @@
 	        return _react2.default.createElement(
 	          'div',
 	          { className: 'image-holder' },
-	          _react2.default.createElement(_ImageHolder2.default, { url: this.state.imagePreviewUrl })
+	          _react2.default.createElement(_ImageHolder2.default, { url: this.state.imagePreviewUrl }),
+	          _react2.default.createElement(_ResultsHolder2.default, { cars: this.state.compareResults })
 	        );
 	      }
 	    }
 	  }, {
-	    key: 'shiftInput',
-	    value: function shiftInput() {
+	    key: 'moveUpload',
+	    value: function moveUpload() {
 	      if (!this.state.imagePreviewUrl) {
-	        return 'none';
+	        return 'no-upload';
 	      } else {
-	        return 'inline-block';
+	        return 'display-upload';
+	      }
+	    }
+	  }, {
+	    key: 'removeUpload',
+	    value: function removeUpload() {
+	      if (this.state.imagePreviewUrl) {
+	        return 'no-upload';
+	      } else {
+	        return 'display-upload';
 	      }
 	    }
 	  }, {
@@ -22988,15 +22998,21 @@
 	            null,
 	            'Car-Tographer'
 	          ),
-	          _react2.default.createElement(_ImageImport2.default, { className: 'upload-header',
-	            display: this.shiftInput(), handleImageData: this.handleImageData.bind(this) })
+	          _react2.default.createElement(
+	            'div',
+	            { className: this.moveUpload() + ' header-upload' },
+	            _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) })
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'section',
 	          { className: 'main-content' },
-	          _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) }),
-	          this.displayComponents(),
-	          _react2.default.createElement(_ResultsHolder2.default, { cars: this.state.compareResults })
+	          _react2.default.createElement(
+	            'div',
+	            { className: this.removeUpload() + ' body-upload' },
+	            _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) })
+	          ),
+	          this.displayComponents()
 	        )
 	      );
 	    }
@@ -23093,7 +23109,7 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { className: 'upload' },
+	        null,
 	        _react2.default.createElement(
 	          'form',
 	          { id: 'fileform', onSubmit: function onSubmit(e) {
@@ -23307,6 +23323,7 @@
 	  return _react2.default.createElement(
 	    'section',
 	    { className: 'results-holder' },
+	    loading(cars),
 	    lengthMessage(cars),
 	    cars.map(function (car, i) {
 	      return _react2.default.createElement(
@@ -23330,6 +23347,16 @@
 	      'h3',
 	      null,
 	      'The car is: '
+	    );
+	  }
+	};
+	
+	var loading = function loading(cars) {
+	  if (!cars) {
+	    return _react2.default.createElement(
+	      'div',
+	      null,
+	      _react2.default.createElement('img', { src: '../assets/images/loading.gif' })
 	    );
 	  }
 	};
