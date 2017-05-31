@@ -25,7 +25,6 @@ export default class App extends Component {
   componentDidMount(){
     let results = this.helper.cleanVehicleData(vehicleData)
     this.setState({
-      loadingStatus: true,
       completeVehicles: this.helper.cleanVehicleData(vehicleData),
     })
   }
@@ -35,6 +34,9 @@ export default class App extends Component {
     let statePromise = new Promise((resolve, reject)=>{
       console.log('loading...')
       this.setState({
+        apiResults: [],
+        compareResults: [],
+        loadingStatus: true,
         imagePreviewUrl: inputState.imagePreviewUrl,
       })
       setTimeout(function(){

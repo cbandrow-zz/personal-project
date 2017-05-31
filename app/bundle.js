@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "cbd0dfdb4145981dd090"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "968ecbd8cbba85ab8d03"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22900,7 +22900,6 @@
 	    value: function componentDidMount() {
 	      var results = this.helper.cleanVehicleData(_vehicleData2.default);
 	      this.setState({
-	        loadingStatus: true,
 	        completeVehicles: this.helper.cleanVehicleData(_vehicleData2.default)
 	      });
 	    }
@@ -22913,6 +22912,9 @@
 	      var statePromise = new Promise(function (resolve, reject) {
 	        console.log('loading...');
 	        _this2.setState({
+	          apiResults: [],
+	          compareResults: [],
+	          loadingStatus: true,
 	          imagePreviewUrl: inputState.imagePreviewUrl
 	        });
 	        setTimeout(function () {
@@ -23328,8 +23330,8 @@
 	  return _react2.default.createElement(
 	    'section',
 	    { className: 'results-holder' },
-	    loading(loadingStatus),
 	    lengthMessage(cars),
+	    loading(loadingStatus),
 	    cars.map(function (car, i) {
 	      return _react2.default.createElement(
 	        'div',
@@ -23360,8 +23362,13 @@
 	  if (loadingStatus === true) {
 	    return _react2.default.createElement(
 	      'div',
-	      null,
-	      _react2.default.createElement('img', { width: '100px', src: '../../assets/images/loading.gif' })
+	      { className: 'loading-image' },
+	      _react2.default.createElement('img', { width: '100px', src: '../../assets/images/loading.gif' }),
+	      _react2.default.createElement(
+	        'h3',
+	        null,
+	        'Loading Results...'
+	      )
 	    );
 	  } else {
 	    return null;

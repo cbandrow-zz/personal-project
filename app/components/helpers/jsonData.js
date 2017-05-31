@@ -8,7 +8,7 @@ const jsonData = (content) => {
         "features": [
           {
             "type": "WEB_DETECTION",
-            "maxResults": 50
+            "maxResults": 10,
           }
         ],
       }
