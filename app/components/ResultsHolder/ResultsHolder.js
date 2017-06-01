@@ -1,10 +1,10 @@
 import React from 'react'
 import Results from '../Results/Results'
 
-const ResultsHolder = ({cars, loadingStatus}) =>{
+const ResultsHolder = ({cars, loadingStatus, error}) =>{
   return (
     <section className = "results-holder">
-      {lengthMessage(cars)}
+      {lengthMessage(cars, error)}
       {loading(loadingStatus)}
       {cars.map((car, i)=>{
         return(
@@ -17,7 +17,7 @@ const ResultsHolder = ({cars, loadingStatus}) =>{
   )
 }
 
-const lengthMessage = (cars)=>{
+const lengthMessage = (cars, error)=>{
   if(cars.length > 1){
       return(
         <h3>Your uploaded image may be: </h3>
@@ -26,7 +26,11 @@ const lengthMessage = (cars)=>{
       return(
         <h3>The car is: </h3>
       )
-  }
+    } else if (error === true){
+      return(
+        <h3>Please Try Again.</h3>
+      )
+    }
 }
 
 const loading = (loadingStatus) => {

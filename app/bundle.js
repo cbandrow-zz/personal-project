@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "968ecbd8cbba85ab8d03"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "f7b8965fb5829ffe5546"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22890,7 +22890,8 @@
 	      apiResults: [],
 	      completeVehicles: [],
 	      compareResults: [],
-	      loadingStatus: false
+	      loadingStatus: false,
+	      error: ''
 	    };
 	    return _this;
 	  }
@@ -22900,6 +22901,7 @@
 	    value: function componentDidMount() {
 	      var results = this.helper.cleanVehicleData(_vehicleData2.default);
 	      this.setState({
+	        error: false,
 	        completeVehicles: this.helper.cleanVehicleData(_vehicleData2.default)
 	      });
 	    }
@@ -22912,6 +22914,7 @@
 	      var statePromise = new Promise(function (resolve, reject) {
 	        console.log('loading...');
 	        _this2.setState({
+	          error: false,
 	          apiResults: [],
 	          compareResults: [],
 	          loadingStatus: true,
@@ -22953,6 +22956,8 @@
 	          loadingStatus: false
 	        });
 	        console.log(compared);
+	      }).then(function (data) {
+	        return _this3.determineError();
 	      }).catch(function (err) {
 	        return console.log(err);
 	      });
@@ -22968,7 +22973,7 @@
 	          { className: 'content-holder' },
 	          _react2.default.createElement(_ImageHolder2.default, { url: this.state.imagePreviewUrl }),
 	          _react2.default.createElement(_ResultsHolder2.default, { cars: this.state.compareResults,
-	            loadingStatus: this.state.loadingStatus })
+	            loadingStatus: this.state.loadingStatus, error: this.state.error })
 	        );
 	      }
 	    }
@@ -22988,6 +22993,21 @@
 	        return 'no-upload';
 	      } else {
 	        return 'display-upload';
+	      }
+	    }
+	  }, {
+	    key: 'determineError',
+	    value: function determineError() {
+	      if (this.state.loadingStatus === false && this.state.compareResults.length < 1 && this.state.apiResults) {
+	        console.log("error?");
+	        this.setState({
+	          error: true
+	        });
+	      } else {
+	        this.setState({
+	          error: false
+	        });
+	        console.log("loading complete");
 	      }
 	    }
 	  }, {
@@ -23121,7 +23141,7 @@
 	          { id: 'fileform', onSubmit: function onSubmit(e) {
 	              return _this3.handleSubmit(e);
 	            } },
-	          _react2.default.createElement('input', { id: 'fileInput', type: 'file', name: 'fileField', onChange: function onChange(e) {
+	          _react2.default.createElement('input', { id: 'fileInput', type: 'file', name: 'fileField', accept: 'image/jpeg', onChange: function onChange(e) {
 	              return _this3.handleImageUpload(e);
 	            } }),
 	          _react2.default.createElement('input', { onClick: function onClick(e) {
@@ -23325,12 +23345,13 @@
 	
 	var ResultsHolder = function ResultsHolder(_ref) {
 	  var cars = _ref.cars,
-	      loadingStatus = _ref.loadingStatus;
+	      loadingStatus = _ref.loadingStatus,
+	      error = _ref.error;
 	
 	  return _react2.default.createElement(
 	    'section',
 	    { className: 'results-holder' },
-	    lengthMessage(cars),
+	    lengthMessage(cars, error),
 	    loading(loadingStatus),
 	    cars.map(function (car, i) {
 	      return _react2.default.createElement(
@@ -23342,7 +23363,7 @@
 	  );
 	};
 	
-	var lengthMessage = function lengthMessage(cars) {
+	var lengthMessage = function lengthMessage(cars, error) {
 	  if (cars.length > 1) {
 	    return _react2.default.createElement(
 	      'h3',
@@ -23354,6 +23375,12 @@
 	      'h3',
 	      null,
 	      'The car is: '
+	    );
+	  } else if (error === true) {
+	    return _react2.default.createElement(
+	      'h3',
+	      null,
+	      'Please Try Again.'
 	    );
 	  }
 	};
@@ -23511,6 +23538,7 @@
 	      var reducedResults = results.filter(function (result, i, arr) {
 	        return arr.indexOf(result) === i;
 	      });
+	
 	      return reducedResults;
 	    }
 	  }]);
@@ -23542,7 +23570,7 @@
 	      },
 	      "features": [{
 	        "type": "WEB_DETECTION",
-	        "maxResults": 50
+	        "maxResults": 10
 	      }]
 	    }]
 	  };

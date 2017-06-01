@@ -19,12 +19,14 @@ export default class App extends Component {
       completeVehicles: [],
       compareResults: [],
       loadingStatus: false,
+      error: '',
     }
   }
 
   componentDidMount(){
     let results = this.helper.cleanVehicleData(vehicleData)
     this.setState({
+      error: false,
       completeVehicles: this.helper.cleanVehicleData(vehicleData),
     })
   }
@@ -34,6 +36,7 @@ export default class App extends Component {
     let statePromise = new Promise((resolve, reject)=>{
       console.log('loading...')
       this.setState({
+        error: false,
         apiResults: [],
         compareResults: [],
         loadingStatus: true,
@@ -73,6 +76,7 @@ export default class App extends Component {
       })
       console.log(compared)
      }))
+     .then(data => this.determineError())
      .catch(err => console.log(err))
     // let newResults = this.cleanResponseData(stubData)
     // console.log(newResults, "at send data")
@@ -84,7 +88,7 @@ export default class App extends Component {
         <div className = 'content-holder'>
           <ImageHolder url = {this.state.imagePreviewUrl}/>
           <ResultsHolder cars = {this.state.compareResults}
-          loadingStatus = {this.state.loadingStatus}/>
+          loadingStatus = {this.state.loadingStatus} error = {this.state.error}/>
         </div>
       )
     }
@@ -103,6 +107,20 @@ export default class App extends Component {
       return 'no-upload'
     } else {
       return 'display-upload'
+    }
+  }
+
+  determineError(){
+    if(this.state.loadingStatus === false && this.state.compareResults.length < 1 && this.state.apiResults){
+      console.log("error?")
+      this.setState({
+        error: true,
+      })
+    } else {
+      this.setState({
+        error: false,
+      })
+      console.log("loading complete")
     }
   }
 

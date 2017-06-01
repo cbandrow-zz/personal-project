@@ -69,6 +69,7 @@ export default class Helper{
     let reducedResults = results.filter((result, i, arr) =>{
       return arr.indexOf(result) === i;
     })
+
     return reducedResults
   }
 }
