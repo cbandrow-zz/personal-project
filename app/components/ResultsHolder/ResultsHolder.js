@@ -37,7 +37,7 @@ const loading = (loadingStatus) => {
   if(loadingStatus === true){
     return (
       <div className = "loading-image">
-        <img width = '100px' src = "../../assets/images/loading.gif"/>
+        <img width = '125px' src = "../../assets/images/loading.gif"/>
         <h3>Loading Results...</h3>
       </div>
     )

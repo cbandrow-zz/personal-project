@@ -97,6 +97,4 @@ describe('Helper Tests', () =>{
 
     expect(results).toEqual(['Volkswagen', 'Subaru', 'Ford', 'Chevrolet', 'Mazda'])
   })
-
-
 })
