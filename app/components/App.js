@@ -65,21 +65,23 @@ export default class App extends Component {
         console.log('...done')
         return results
      })
-     .then((results =>{
+     .then((results) =>{
        this.setState({
          apiResults: results
        })
-      let compared = this.helper.getPotentialMakes(results, this.state.completeVehicles)
+      let makeMatches = this.helper.getPotentialMakes(results, this.state.completeVehicles)
+      return makeMatches
+    })
+    .then((makeMatches) =>{
+      let modelMatches = this.helper.getPotentialModels(this.state.apiResults, this.state.completeVehicles, makeMatches)
+
       this.setState({
-        compareResults: compared,
+        compareResults: modelMatches,
         loadingStatus: false,
       })
-      console.log(compared)
-     }))
+    })
      .then(data => this.determineError())
      .catch(err => console.log(err))
-    // let newResults = this.cleanResponseData(stubData)
-    // console.log(newResults, "at send data")
   }
 
   displayComponents(){
