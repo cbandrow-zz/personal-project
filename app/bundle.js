@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "46e1673e6fa43b4cf749"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "ca5cc6f44e441ef8a015"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22947,13 +22947,18 @@
 	        console.log('...done');
 	        return results;
 	      }).then(function (results) {
+	        var returnMatches = _this3.helper.getPotentialMakes(results, _this3.state.completeVehicles);
+	
 	        _this3.setState({
-	          apiResults: results
+	          apiResults: returnMatches[1]
 	        });
-	        var makeMatches = _this3.helper.getPotentialMakes(results, _this3.state.completeVehicles);
-	        return makeMatches;
-	      }).then(function (makeMatches) {
-	        var modelMatches = _this3.helper.getPotentialModels(_this3.state.apiResults, _this3.state.completeVehicles, makeMatches);
+	
+	        var makes = returnMatches[0].map(function (makeData) {
+	          return makeData;
+	        });
+	        return makes;
+	      }).then(function (makes) {
+	        var modelMatches = _this3.helper.getPotentialModels(_this3.state.apiResults, _this3.state.completeVehicles, makes);
 	
 	        _this3.setState({
 	          compareResults: modelMatches,
@@ -23369,7 +23374,7 @@
 	    return _react2.default.createElement(
 	      'h3',
 	      null,
-	      'Your uploaded image may be: '
+	      'Your uploaded image may one of the following Models or Trims: '
 	    );
 	  } else if (cars.length === 1) {
 	    return _react2.default.createElement(
@@ -23505,19 +23510,19 @@
 	      var carDataKeys = Object.keys(carData);
 	
 	      var matches = [];
-	      var newApiData = [];
+	      var matchApi = [];
 	      apiData.forEach(function (data, i) {
 	        carDataKeys.forEach(function (make, i) {
 	          if (data != null && data.toLowerCase().includes(make.toLowerCase())) {
+	            console.log(data);
 	            matches.push(make);
-	            newApiData.push(data);
+	            matchApi.push(data);
 	          }
 	        });
 	      });
 	
 	      var reducedMatches = this.reduceMatches(matches);
-	      console.log(newApiData);
-	      return [reducedMatches, newApiData];
+	      return [reducedMatches, matchApi];
 	    }
 	  }, {
 	    key: "getPotentialModels",
@@ -23530,10 +23535,16 @@
 	          carData[match].models.forEach(function (model) {
 	            var formatModelName = model.name.toLowerCase();
 	            var formatModelId = model.id.toLowerCase();
-	
-	            if (formatData.includes(formatModelName)) {
+	            if (data.toLowerCase() === match.toLowerCase()) {
+	              return;
+	            } else if (formatData.includes(formatModelName)) {
 	              results.push(model.id);
+	              return;
 	            }
+	            // else if (formatModelId.includes(formatData)){
+	            //   results.push(model.id)
+	            //   return
+	            // }
 	          });
 	        });
 	      });

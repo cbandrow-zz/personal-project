@@ -69,8 +69,33 @@ describe('Helper Tests', () =>{
   it('should grab the potential makes of a api data', () =>{
     let cleanResponse = helper.cleanResponseData(stubData)
     let cleanVehicleData = helper.cleanVehicleData(vehicleData)
-    
 
+    let arrayData = ["2009 Volkswagen GTI", "Volkswagen", "Volkswagen Golf Mk5", "Volkswagen Golf GTI", "Volkswagen R32", "Volkswagen Group", "Volkswagen Golf Mk6", "Volkswagen Golf", "Volkswagen GTI"]
+
+    let expectedData = [['Volkswagen'], arrayData]
+
+    let result = helper.getPotentialMakes(cleanResponse, cleanVehicleData)
+    expect(result).toEqual(expectedData);
+    expect(result[0].length).toEqual(1)
+    expect(result[1].length).toEqual(9)
+  })
+
+  it('should grab potential models from api data', ()=>{
+    let cleanResponse = helper.cleanResponseData(stubData)
+    let cleanVehicleData = helper.cleanVehicleData(vehicleData)
+    let modelMatches = ["Volkswagen"]
+    let arrayData = ["2009 Volkswagen GTI", "Volkswagen", "Volkswagen Golf Mk5", "Volkswagen Golf GTI", "Volkswagen R32", "Volkswagen Group", "Volkswagen Golf Mk6", "Volkswagen Golf", "Volkswagen GTI"]
+
+    let result = helper.getPotentialModels(arrayData, cleanVehicleData, modelMatches)
+
+    expect(result).toEqual(["Volkswagen GTI", "Volkswagen Golf", "Volkswagen Golf GTI", "Volkswagen R32"])
+  })
+
+  it('should reduce the matches array when multiple makes are selected', () =>{
+    let array = ['Volkswagen', 'Volkswagen', 'Subaru', 'Ford', 'Ford', 'Ford', 'Chevrolet', 'Mazda']
+    let results = helper.reduceMatches(array)
+
+    expect(results).toEqual(['Volkswagen', 'Subaru', 'Ford', 'Chevrolet', 'Mazda'])
   })
 
 

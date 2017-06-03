@@ -66,14 +66,19 @@ export default class App extends Component {
         return results
      })
      .then((results) =>{
-       this.setState({
-         apiResults: results
-       })
-      let makeMatches = this.helper.getPotentialMakes(results, this.state.completeVehicles)
-      return makeMatches
+      let returnMatches = this.helper.getPotentialMakes(results, this.state.completeVehicles)
+
+      this.setState({
+        apiResults: returnMatches[1]
+      })
+
+      let makes = returnMatches[0].map((makeData) =>{
+        return makeData
+      })
+      return makes
     })
-    .then((makeMatches) =>{
-      let modelMatches = this.helper.getPotentialModels(this.state.apiResults, this.state.completeVehicles, makeMatches)
+    .then((makes) =>{
+      let modelMatches = this.helper.getPotentialModels(this.state.apiResults, this.state.completeVehicles, makes)
 
       this.setState({
         compareResults: modelMatches,

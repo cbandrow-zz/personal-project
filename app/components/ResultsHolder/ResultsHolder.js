@@ -20,7 +20,7 @@ const ResultsHolder = ({cars, loadingStatus, error}) =>{
 const lengthMessage = (cars, error)=>{
   if(cars.length > 1){
       return(
-        <h3>Your uploaded image may be: </h3>
+        <h3>Your uploaded image may one of the following Models or Trims: </h3>
       )
     } else if (cars.length === 1) {
       return(

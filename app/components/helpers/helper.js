@@ -36,17 +36,18 @@ export default class Helper{
     let carDataKeys = Object.keys(carData)
 
     let matches = []
+    let matchApi = []
     apiData.forEach((data, i) =>{
        carDataKeys.forEach((make, i) =>{
         if(data != null && data.toLowerCase().includes(make.toLowerCase()) ){
           matches.push(make)
-
+          matchApi.push(data)
         }
       })
     })
 
     let reducedMatches = this.reduceMatches(matches)
-    return reducedMatches
+    return [reducedMatches, matchApi]
   }
 
   getPotentialModels(apiData, carData, reducedMatches){
@@ -54,14 +55,19 @@ export default class Helper{
     apiData.forEach((data, i) =>{
       reducedMatches.forEach((match)=>{
         let formatData = data.toLowerCase().replace(`${match.toLowerCase()} `, '')
-        console.log(formatData)
         carData[match].models.forEach((model)=>{
           let formatModelName = model.name.toLowerCase()
           let formatModelId = model.id.toLowerCase()
-
-          if(formatData.includes(formatModelName)){
+          if (data.toLowerCase() === match.toLowerCase()){
+            return
+          } else if(formatData.includes(formatModelName)){
             results.push(model.id)
+            return
           }
+          // else if (formatModelId.includes(formatData)){
+          //   results.push(model.id)
+          //   return
+          // }
         })
       })
     })
