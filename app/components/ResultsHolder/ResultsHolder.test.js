@@ -38,4 +38,19 @@ describe('Results Holder', () =>{
     expect(wrapper.find('h3').first().text()).toBe('Your uploaded image may one of the following Models or Trims: ')
   })
 
+  it('should return different answer strings when there is One Car', () =>{
+    const wrapper = shallow(<ResultsHolder cars = {['Ferrar 458']} loadingStatus = {loadingStatus} error = {error}/>)
+
+    expect(wrapper.find('Results').length).toEqual(1)
+    expect(wrapper.find('h3').first().text()).toBe('The car is: ')
+  })
+
+  it('should return an error message', () =>{
+
+    error = true;
+
+    const wrapper = shallow(<ResultsHolder cars = {[]} loadingStatus = {loadingStatus} error = {error}/>)
+    expect(wrapper.find('h3').first().text()).toBe('Please Try Again.')
+  })
+
 })

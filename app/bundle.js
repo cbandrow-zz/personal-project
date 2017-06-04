@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "ca5cc6f44e441ef8a015"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a78e0fcd184f9187d045"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -23001,6 +23001,15 @@
 	        return 'display-upload';
 	      }
 	    }
+	
+	    // inputChange(){
+	    //   if(this.state.imagePreviewUrl){
+	    //     return false
+	    //   } else {
+	    //
+	    //   }
+	    // }
+	
 	  }, {
 	    key: 'determineError',
 	    value: function determineError() {
@@ -23030,20 +23039,20 @@
 	            null,
 	            'Car-Tographer'
 	          ),
-	          _react2.default.createElement(
+	          this.state.imagePreviewUrl ? _react2.default.createElement(
 	            'div',
-	            { className: this.moveUpload() + ' header-upload' },
+	            { className: 'header-upload' },
 	            _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) })
-	          )
+	          ) : null
 	        ),
 	        _react2.default.createElement(
 	          'section',
 	          { className: 'main-content' },
-	          _react2.default.createElement(
+	          !this.state.imagePreviewUrl ? _react2.default.createElement(
 	            'div',
-	            { className: this.removeUpload() + ' body-upload' },
+	            { className: 'body-upload' },
 	            _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) })
-	          ),
+	          ) : null,
 	          this.displayComponents()
 	        )
 	      );
@@ -23396,7 +23405,7 @@
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'loading-image' },
-	      _react2.default.createElement('img', { width: '100px', src: '../../assets/images/loading.gif' }),
+	      _react2.default.createElement('img', { width: '125px', src: '../../assets/images/loading.gif' }),
 	      _react2.default.createElement(
 	        'h3',
 	        null,
@@ -23514,7 +23523,6 @@
 	      apiData.forEach(function (data, i) {
 	        carDataKeys.forEach(function (make, i) {
 	          if (data != null && data.toLowerCase().includes(make.toLowerCase())) {
-	            console.log(data);
 	            matches.push(make);
 	            matchApi.push(data);
 	          }
@@ -23531,7 +23539,6 @@
 	      apiData.forEach(function (data, i) {
 	        reducedMatches.forEach(function (match) {
 	          var formatData = data.toLowerCase().replace(match.toLowerCase() + " ", '');
-	          console.log(formatData);
 	          carData[match].models.forEach(function (model) {
 	            var formatModelName = model.name.toLowerCase();
 	            var formatModelId = model.id.toLowerCase();

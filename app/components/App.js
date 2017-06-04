@@ -117,6 +117,14 @@ export default class App extends Component {
     }
   }
 
+  // inputChange(){
+  //   if(this.state.imagePreviewUrl){
+  //     return false
+  //   } else {
+  //
+  //   }
+  // }
+
   determineError(){
     if(this.state.loadingStatus === false && this.state.compareResults.length < 1 && this.state.apiResults){
       console.log("error?")
@@ -136,12 +144,14 @@ export default class App extends Component {
       <main>
         <header>
           <h1>Car-Tographer</h1>
-          <div className = {`${this.moveUpload()} header-upload`}>
-            <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
-          </div>
+          {this.state.imagePreviewUrl ?
+            <div className = {`header-upload`}>
+              <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
+            </div>
+          : null}
         </header>
         <section className = "main-content">
-          <div className = {`${this.removeUpload()} body-upload`}>
+          <div className = {!this.state.imagePreviewUrl ?  `display-upload body-upload` : `no-upload body-upload`}>
             <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
           </div>
           {this.displayComponents()}
