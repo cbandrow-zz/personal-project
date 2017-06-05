@@ -57,13 +57,13 @@ export default class ImportImage extends Component {
           <label
             htmlFor= "fileInput"
             id="upload-photo-label">Upload a Vehicle Image</label>
-          <input
+          <button
             onClick = {(e) => this.handleSubmit(e)}
             id = "submit-btn"
             type="submit"
             name="submit"
             value="Submit"
-            disabled = {!this.state.file}/>
+            disabled = {!this.state.file}>Submit Image</button>
         </form>
       </div>
     )

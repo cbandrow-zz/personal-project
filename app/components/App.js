@@ -118,7 +118,7 @@ export default class App extends Component {
     return (
       <main>
         <header>
-          <h1>Car-Tographer</h1>
+          <img className = "logo" src = '../assets/images/logo.png'/>
           {this.state.imagePreviewUrl ?
             <div className = 'display-upload header-upload'>
               <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
