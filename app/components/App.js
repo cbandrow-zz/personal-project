@@ -19,12 +19,14 @@ export default class App extends Component {
       completeVehicles: [],
       compareResults: [],
       loadingStatus: false,
+      error: '',
     }
   }
 
   componentDidMount(){
     let results = this.helper.cleanVehicleData(vehicleData)
     this.setState({
+      error: false,
       completeVehicles: this.helper.cleanVehicleData(vehicleData),
     })
   }
@@ -34,6 +36,7 @@ export default class App extends Component {
     let statePromise = new Promise((resolve, reject)=>{
       console.log('loading...')
       this.setState({
+        error: false,
         apiResults: [],
         compareResults: [],
         loadingStatus: true,
@@ -62,20 +65,27 @@ export default class App extends Component {
         console.log('...done')
         return results
      })
-     .then((results =>{
-       this.setState({
-         apiResults: results
-       })
-      let compared = this.helper.getPotentialMakes(results, this.state.completeVehicles)
+     .then((results) =>{
+      let returnMatches = this.helper.getPotentialMakes(results, this.state.completeVehicles)
       this.setState({
-        compareResults: compared,
+        apiResults: returnMatches[1]
+      })
+
+      let makes = returnMatches[0].map((makeData) =>{
+        return makeData
+      })
+      return makes
+    })
+    .then((makes) =>{
+      let modelMatches = this.helper.getPotentialModels(this.state.apiResults, this.state.completeVehicles, makes)
+
+      this.setState({
+        compareResults: modelMatches,
         loadingStatus: false,
       })
-      console.log(compared)
-     }))
+    })
+     .then(data => this.determineError())
      .catch(err => console.log(err))
-    // let newResults = this.cleanResponseData(stubData)
-    // console.log(newResults, "at send data")
   }
 
   displayComponents(){
@@ -84,25 +94,23 @@ export default class App extends Component {
         <div className = 'content-holder'>
           <ImageHolder url = {this.state.imagePreviewUrl}/>
           <ResultsHolder cars = {this.state.compareResults}
-          loadingStatus = {this.state.loadingStatus}/>
+          loadingStatus = {this.state.loadingStatus} error = {this.state.error}/>
         </div>
       )
     }
   }
 
-  moveUpload(){
-    if(!this.state.imagePreviewUrl){
-      return 'no-upload'
+  determineError(){
+    if(this.state.loadingStatus === false && this.state.compareResults.length < 1 && this.state.apiResults){
+      console.log("error?")
+      this.setState({
+        error: true,
+      })
     } else {
-      return 'display-upload'
-    }
-  }
-
-  removeUpload(){
-    if(this.state.imagePreviewUrl){
-      return 'no-upload'
-    } else {
-      return 'display-upload'
+      this.setState({
+        error: false,
+      })
+      console.log("loading complete")
     }
   }
 
@@ -111,12 +119,14 @@ export default class App extends Component {
       <main>
         <header>
           <h1>Car-Tographer</h1>
-          <div className = {`${this.moveUpload()} header-upload`}>
-            <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
-          </div>
+          {this.state.imagePreviewUrl ?
+            <div className = {this.state.imagePreviewUrl ?  `display-upload header-upload` : `no-upload header-upload`}>
+              <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
+            </div>
+          : null}
         </header>
         <section className = "main-content">
-          <div className = {`${this.removeUpload()} body-upload`}>
+          <div className = {!this.state.imagePreviewUrl ?  `display-upload body-upload` : `no-upload body-upload`}>
             <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
           </div>
           {this.displayComponents()}

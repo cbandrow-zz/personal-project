@@ -5,8 +5,8 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import { browserHistory, Route } from 'react-router';
 
 render(
-  <Router history={ browserHistory } >
+  <main>
     <App />
-  </Router>,
+  </main>,
   document.getElementById('main'),
 );

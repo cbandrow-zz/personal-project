@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "968ecbd8cbba85ab8d03"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "a78e0fcd184f9187d045"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -614,8 +614,8 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	(0, _reactDom.render)(_react2.default.createElement(
-	  _reactRouterDom.BrowserRouter,
-	  { history: _reactRouter.browserHistory },
+	  'main',
+	  null,
 	  _react2.default.createElement(_App2.default, null)
 	), document.getElementById('main'));
 	
@@ -22890,7 +22890,8 @@
 	      apiResults: [],
 	      completeVehicles: [],
 	      compareResults: [],
-	      loadingStatus: false
+	      loadingStatus: false,
+	      error: ''
 	    };
 	    return _this;
 	  }
@@ -22900,6 +22901,7 @@
 	    value: function componentDidMount() {
 	      var results = this.helper.cleanVehicleData(_vehicleData2.default);
 	      this.setState({
+	        error: false,
 	        completeVehicles: this.helper.cleanVehicleData(_vehicleData2.default)
 	      });
 	    }
@@ -22912,6 +22914,7 @@
 	      var statePromise = new Promise(function (resolve, reject) {
 	        console.log('loading...');
 	        _this2.setState({
+	          error: false,
 	          apiResults: [],
 	          compareResults: [],
 	          loadingStatus: true,
@@ -22944,20 +22947,28 @@
 	        console.log('...done');
 	        return results;
 	      }).then(function (results) {
+	        var returnMatches = _this3.helper.getPotentialMakes(results, _this3.state.completeVehicles);
+	
 	        _this3.setState({
-	          apiResults: results
+	          apiResults: returnMatches[1]
 	        });
-	        var compared = _this3.helper.getPotentialMakes(results, _this3.state.completeVehicles);
+	
+	        var makes = returnMatches[0].map(function (makeData) {
+	          return makeData;
+	        });
+	        return makes;
+	      }).then(function (makes) {
+	        var modelMatches = _this3.helper.getPotentialModels(_this3.state.apiResults, _this3.state.completeVehicles, makes);
+	
 	        _this3.setState({
-	          compareResults: compared,
+	          compareResults: modelMatches,
 	          loadingStatus: false
 	        });
-	        console.log(compared);
+	      }).then(function (data) {
+	        return _this3.determineError();
 	      }).catch(function (err) {
 	        return console.log(err);
 	      });
-	      // let newResults = this.cleanResponseData(stubData)
-	      // console.log(newResults, "at send data")
 	    }
 	  }, {
 	    key: 'displayComponents',
@@ -22968,7 +22979,7 @@
 	          { className: 'content-holder' },
 	          _react2.default.createElement(_ImageHolder2.default, { url: this.state.imagePreviewUrl }),
 	          _react2.default.createElement(_ResultsHolder2.default, { cars: this.state.compareResults,
-	            loadingStatus: this.state.loadingStatus })
+	            loadingStatus: this.state.loadingStatus, error: this.state.error })
 	        );
 	      }
 	    }
@@ -22990,6 +23001,30 @@
 	        return 'display-upload';
 	      }
 	    }
+	
+	    // inputChange(){
+	    //   if(this.state.imagePreviewUrl){
+	    //     return false
+	    //   } else {
+	    //
+	    //   }
+	    // }
+	
+	  }, {
+	    key: 'determineError',
+	    value: function determineError() {
+	      if (this.state.loadingStatus === false && this.state.compareResults.length < 1 && this.state.apiResults) {
+	        console.log("error?");
+	        this.setState({
+	          error: true
+	        });
+	      } else {
+	        this.setState({
+	          error: false
+	        });
+	        console.log("loading complete");
+	      }
+	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
@@ -23004,20 +23039,20 @@
 	            null,
 	            'Car-Tographer'
 	          ),
-	          _react2.default.createElement(
+	          this.state.imagePreviewUrl ? _react2.default.createElement(
 	            'div',
-	            { className: this.moveUpload() + ' header-upload' },
+	            { className: 'header-upload' },
 	            _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) })
-	          )
+	          ) : null
 	        ),
 	        _react2.default.createElement(
 	          'section',
 	          { className: 'main-content' },
-	          _react2.default.createElement(
+	          !this.state.imagePreviewUrl ? _react2.default.createElement(
 	            'div',
-	            { className: this.removeUpload() + ' body-upload' },
+	            { className: 'body-upload' },
 	            _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) })
-	          ),
+	          ) : null,
 	          this.displayComponents()
 	        )
 	      );
@@ -23121,7 +23156,7 @@
 	          { id: 'fileform', onSubmit: function onSubmit(e) {
 	              return _this3.handleSubmit(e);
 	            } },
-	          _react2.default.createElement('input', { id: 'fileInput', type: 'file', name: 'fileField', onChange: function onChange(e) {
+	          _react2.default.createElement('input', { id: 'fileInput', type: 'file', name: 'fileField', accept: 'image/jpeg', onChange: function onChange(e) {
 	              return _this3.handleImageUpload(e);
 	            } }),
 	          _react2.default.createElement('input', { onClick: function onClick(e) {
@@ -23325,12 +23360,13 @@
 	
 	var ResultsHolder = function ResultsHolder(_ref) {
 	  var cars = _ref.cars,
-	      loadingStatus = _ref.loadingStatus;
+	      loadingStatus = _ref.loadingStatus,
+	      error = _ref.error;
 	
 	  return _react2.default.createElement(
 	    'section',
 	    { className: 'results-holder' },
-	    lengthMessage(cars),
+	    lengthMessage(cars, error),
 	    loading(loadingStatus),
 	    cars.map(function (car, i) {
 	      return _react2.default.createElement(
@@ -23342,18 +23378,24 @@
 	  );
 	};
 	
-	var lengthMessage = function lengthMessage(cars) {
+	var lengthMessage = function lengthMessage(cars, error) {
 	  if (cars.length > 1) {
 	    return _react2.default.createElement(
 	      'h3',
 	      null,
-	      'Your uploaded image may be: '
+	      'Your uploaded image may one of the following Models or Trims: '
 	    );
 	  } else if (cars.length === 1) {
 	    return _react2.default.createElement(
 	      'h3',
 	      null,
 	      'The car is: '
+	    );
+	  } else if (error === true) {
+	    return _react2.default.createElement(
+	      'h3',
+	      null,
+	      'Please Try Again.'
 	    );
 	  }
 	};
@@ -23363,7 +23405,7 @@
 	    return _react2.default.createElement(
 	      'div',
 	      { className: 'loading-image' },
-	      _react2.default.createElement('img', { width: '100px', src: '../../assets/images/loading.gif' }),
+	      _react2.default.createElement('img', { width: '125px', src: '../../assets/images/loading.gif' }),
 	      _react2.default.createElement(
 	        'h3',
 	        null,
@@ -23423,7 +23465,7 @@
 
 	/* WEBPACK VAR INJECTION */(function(module) {/* REACT HOT LOADER */ if (true) { (function () { var ReactHotAPI = __webpack_require__(3), RootInstanceProvider = __webpack_require__(11), ReactMount = __webpack_require__(13), React = __webpack_require__(103); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 	
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -23441,7 +23483,7 @@
 	  }
 	
 	  _createClass(Helper, [{
-	    key: 'cleanVehicleData',
+	    key: "cleanVehicleData",
 	    value: function cleanVehicleData(vehicleData) {
 	      var reducedData = vehicleData.makes.reduce(function (acc, make) {
 	        if (!acc[make.name]) {
@@ -23449,7 +23491,7 @@
 	            name: make.name,
 	            models: make.models.map(function (model) {
 	              return {
-	                name: model.name,
+	                name: model.name.replace(/-/g, " "),
 	                id: model.id
 	              };
 	            })
@@ -23460,11 +23502,11 @@
 	      return reducedData;
 	    }
 	  }, {
-	    key: 'cleanResponseData',
+	    key: "cleanResponseData",
 	    value: function cleanResponseData(respData) {
 	      var newResults = respData.responses[0].webDetection.webEntities.reduce(function (acc, value) {
 	        if (!acc.includes(value.description) && value.description != null) {
-	          acc.push(value.description);
+	          acc.push(value.description.replace(/-/g, " "));
 	        }
 	        return acc;
 	      }, []);
@@ -23472,46 +23514,57 @@
 	      return newResults;
 	    }
 	  }, {
-	    key: 'getPotentialMakes',
+	    key: "getPotentialMakes",
 	    value: function getPotentialMakes(apiData, carData) {
 	      var carDataKeys = Object.keys(carData);
 	
 	      var matches = [];
+	      var matchApi = [];
 	      apiData.forEach(function (data, i) {
 	        carDataKeys.forEach(function (make, i) {
 	          if (data != null && data.toLowerCase().includes(make.toLowerCase())) {
 	            matches.push(make);
+	            matchApi.push(data);
 	          }
 	        });
 	      });
 	
-	      var reducedMatches = matches.filter(function (match, i, arr) {
-	        return arr.indexOf(match) === i;
-	      });
-	      return this.getPotentialModels(apiData, carData, reducedMatches);
+	      var reducedMatches = this.reduceMatches(matches);
+	      return [reducedMatches, matchApi];
 	    }
 	  }, {
-	    key: 'getPotentialModels',
+	    key: "getPotentialModels",
 	    value: function getPotentialModels(apiData, carData, reducedMatches) {
 	      var results = [];
 	      apiData.forEach(function (data, i) {
 	        reducedMatches.forEach(function (match) {
-	          var formatData = data.toLowerCase().replace('' + match.toLowerCase(), '');
+	          var formatData = data.toLowerCase().replace(match.toLowerCase() + " ", '');
 	          carData[match].models.forEach(function (model) {
 	            var formatModelName = model.name.toLowerCase();
 	            var formatModelId = model.id.toLowerCase();
-	
-	            if (formatData.includes(formatModelName)) {
+	            if (data.toLowerCase() === match.toLowerCase()) {
+	              return;
+	            } else if (formatData.includes(formatModelName)) {
 	              results.push(model.id);
+	              return;
 	            }
+	            // else if (formatModelId.includes(formatData)){
+	            //   results.push(model.id)
+	            //   return
+	            // }
 	          });
 	        });
 	      });
 	
-	      var reducedResults = results.filter(function (result, i, arr) {
-	        return arr.indexOf(result) === i;
-	      });
+	      var reducedResults = this.reduceMatches(results);
 	      return reducedResults;
+	    }
+	  }, {
+	    key: "reduceMatches",
+	    value: function reduceMatches(array) {
+	      return array.filter(function (data, i, arr) {
+	        return arr.indexOf(data) === i;
+	      });
 	    }
 	  }]);
 	
@@ -23542,7 +23595,7 @@
 	      },
 	      "features": [{
 	        "type": "WEB_DETECTION",
-	        "maxResults": 50
+	        "maxResults": 10
 	      }]
 	    }]
 	  };
