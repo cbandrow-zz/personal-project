@@ -14,6 +14,10 @@ export default class ImportImage extends Component {
   handleSubmit(e) {
    e.preventDefault();
    this.props.handleImageData(this.state)
+   this.setState({
+     file: '',
+     imagePreviewUrl: '',
+   })
  }
 
  handleImageUpload(e) {
@@ -31,11 +35,11 @@ export default class ImportImage extends Component {
        });
      }
      setTimeout(function(){
-       resolve("Supposedly your shit was transformed!");
+       resolve("");
      }, 200);
    });
    imagePromise.then(()=>{
-     console.log("readerResult should be through")
+     console.log("Image conversion promise resolved.")
      console.log(this.state)
    })
  }
@@ -43,10 +47,23 @@ export default class ImportImage extends Component {
   render(){
     return(
       <div>
-        <form id="fileform" onSubmit = {(e) => this.handleSubmit(e)}>
-          <input id="fileInput" type="file" name="fileField" accept="image/jpeg" onChange = {(e) => this.handleImageUpload(e)}/>
-          <input onClick = {(e) => this.handleSubmit(e)} id = "submit-btn"
-          type="submit" name="submit" value="Submit" disabled = {!this.state.file}/>
+        <form className="fileform" onSubmit = {(e) => this.handleSubmit(e)}>
+          <input
+            id="fileInput"
+            type="file"
+            name="fileField"
+            accept="image/jpeg"
+            onChange = {(e) => this.handleImageUpload(e)}/>
+          <label
+            htmlFor= "fileInput"
+            id="upload-photo-label">Upload a Vehicle Image</label>
+          <input
+            onClick = {(e) => this.handleSubmit(e)}
+            id = "submit-btn"
+            type="submit"
+            name="submit"
+            value="Submit"
+            disabled = {!this.state.file}/>
         </form>
       </div>
     )

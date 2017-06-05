@@ -133,9 +133,6 @@ describe('Main App Tests', () =>{
 
   it('should render the inputs to the main body when uploading images', () =>{
     const wrapper = shallow(<App/>)
-    wrapper.setState({
-      imagePreviewUrl: [],
-    })
     expect(wrapper.find('.body-upload').length).toEqual(1)
   })
 
