@@ -68,6 +68,5 @@ describe('Image Import', () =>{
 
     expect(mockFn).toHaveBeenCalled()
     expect(mockFn).toHaveBeenCalledTimes(1)
-
   })
 })

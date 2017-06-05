@@ -67,7 +67,6 @@ export default class App extends Component {
      })
      .then((results) =>{
       let returnMatches = this.helper.getPotentialMakes(results, this.state.completeVehicles)
-
       this.setState({
         apiResults: returnMatches[1]
       })
@@ -101,30 +100,6 @@ export default class App extends Component {
     }
   }
 
-  moveUpload(){
-    if(!this.state.imagePreviewUrl){
-      return 'no-upload'
-    } else {
-      return 'display-upload'
-    }
-  }
-
-  removeUpload(){
-    if(this.state.imagePreviewUrl){
-      return 'no-upload'
-    } else {
-      return 'display-upload'
-    }
-  }
-
-  // inputChange(){
-  //   if(this.state.imagePreviewUrl){
-  //     return false
-  //   } else {
-  //
-  //   }
-  // }
-
   determineError(){
     if(this.state.loadingStatus === false && this.state.compareResults.length < 1 && this.state.apiResults){
       console.log("error?")
@@ -145,7 +120,7 @@ export default class App extends Component {
         <header>
           <h1>Car-Tographer</h1>
           {this.state.imagePreviewUrl ?
-            <div className = {`header-upload`}>
+            <div className = {this.state.imagePreviewUrl ?  `display-upload header-upload` : `no-upload header-upload`}>
               <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
             </div>
           : null}
