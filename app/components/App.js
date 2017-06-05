@@ -44,7 +44,7 @@ export default class App extends Component {
       })
       setTimeout(function(){
         resolve('promise resolved');
-      }, 1500);
+      }, 1100);
     })
     statePromise.then(() =>{
       content = this.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '')
@@ -118,17 +118,19 @@ export default class App extends Component {
     return (
       <main>
         <header>
-          <h1>Car-Tographer</h1>
+          <img className = "logo" src = '../assets/images/logo.png'/>
           {this.state.imagePreviewUrl ?
-            <div className = {this.state.imagePreviewUrl ?  `display-upload header-upload` : `no-upload header-upload`}>
+            <div className = 'display-upload header-upload'>
               <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
             </div>
           : null}
         </header>
         <section className = "main-content">
-          <div className = {!this.state.imagePreviewUrl ?  `display-upload body-upload` : `no-upload body-upload`}>
-            <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
-          </div>
+          {!this.state.imagePreviewUrl ?
+            <div className = 'display-upload body-upload'>
+              <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
+            </div>
+          : null}
           {this.displayComponents()}
         </section>
       </main>

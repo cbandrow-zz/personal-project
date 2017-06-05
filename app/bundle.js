@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "a78e0fcd184f9187d045"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "0815388cdef560c7c89d"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22922,7 +22922,7 @@
 	        });
 	        setTimeout(function () {
 	          resolve('promise resolved');
-	        }, 1500);
+	        }, 1100);
 	      });
 	      statePromise.then(function () {
 	        content = _this2.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '');
@@ -22948,7 +22948,6 @@
 	        return results;
 	      }).then(function (results) {
 	        var returnMatches = _this3.helper.getPotentialMakes(results, _this3.state.completeVehicles);
-	
 	        _this3.setState({
 	          apiResults: returnMatches[1]
 	        });
@@ -22984,33 +22983,6 @@
 	      }
 	    }
 	  }, {
-	    key: 'moveUpload',
-	    value: function moveUpload() {
-	      if (!this.state.imagePreviewUrl) {
-	        return 'no-upload';
-	      } else {
-	        return 'display-upload';
-	      }
-	    }
-	  }, {
-	    key: 'removeUpload',
-	    value: function removeUpload() {
-	      if (this.state.imagePreviewUrl) {
-	        return 'no-upload';
-	      } else {
-	        return 'display-upload';
-	      }
-	    }
-	
-	    // inputChange(){
-	    //   if(this.state.imagePreviewUrl){
-	    //     return false
-	    //   } else {
-	    //
-	    //   }
-	    // }
-	
-	  }, {
 	    key: 'determineError',
 	    value: function determineError() {
 	      if (this.state.loadingStatus === false && this.state.compareResults.length < 1 && this.state.apiResults) {
@@ -23041,7 +23013,7 @@
 	          ),
 	          this.state.imagePreviewUrl ? _react2.default.createElement(
 	            'div',
-	            { className: 'header-upload' },
+	            { className: 'display-upload header-upload' },
 	            _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) })
 	          ) : null
 	        ),
@@ -23050,7 +23022,7 @@
 	          { className: 'main-content' },
 	          !this.state.imagePreviewUrl ? _react2.default.createElement(
 	            'div',
-	            { className: 'body-upload' },
+	            { className: 'display-upload body-upload' },
 	            _react2.default.createElement(_ImageImport2.default, { handleImageData: this.handleImageData.bind(this) })
 	          ) : null,
 	          this.displayComponents()
@@ -23115,6 +23087,10 @@
 	    value: function handleSubmit(e) {
 	      e.preventDefault();
 	      this.props.handleImageData(this.state);
+	      this.setState({
+	        file: '',
+	        imagePreviewUrl: ''
+	      });
 	    }
 	  }, {
 	    key: 'handleImageUpload',
@@ -23135,11 +23111,11 @@
 	          });
 	        };
 	        setTimeout(function () {
-	          resolve("Supposedly your shit was transformed!");
+	          resolve("");
 	        }, 200);
 	      });
 	      imagePromise.then(function () {
-	        console.log("readerResult should be through");
+	        console.log("Image conversion promise resolved.");
 	        console.log(_this2.state);
 	      });
 	    }
@@ -23153,16 +23129,33 @@
 	        null,
 	        _react2.default.createElement(
 	          'form',
-	          { id: 'fileform', onSubmit: function onSubmit(e) {
+	          { className: 'fileform', onSubmit: function onSubmit(e) {
 	              return _this3.handleSubmit(e);
 	            } },
-	          _react2.default.createElement('input', { id: 'fileInput', type: 'file', name: 'fileField', accept: 'image/jpeg', onChange: function onChange(e) {
+	          _react2.default.createElement('input', {
+	            id: 'fileInput',
+	            type: 'file',
+	            name: 'fileField',
+	            accept: 'image/jpeg',
+	            onChange: function onChange(e) {
 	              return _this3.handleImageUpload(e);
 	            } }),
-	          _react2.default.createElement('input', { onClick: function onClick(e) {
+	          _react2.default.createElement(
+	            'label',
+	            {
+	              htmlFor: 'fileInput',
+	              id: 'upload-photo-label' },
+	            'Upload a Vehicle Image'
+	          ),
+	          _react2.default.createElement('input', {
+	            onClick: function onClick(e) {
 	              return _this3.handleSubmit(e);
-	            }, id: 'submit-btn',
-	            type: 'submit', name: 'submit', value: 'Submit', disabled: !this.state.file })
+	            },
+	            id: 'submit-btn',
+	            type: 'submit',
+	            name: 'submit',
+	            value: 'Submit',
+	            disabled: !this.state.file })
 	        )
 	      );
 	    }
