@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "0815388cdef560c7c89d"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "2f0d56482fbe9313b890"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -585,6 +585,7 @@
 
 	__webpack_require__(1);
 	__webpack_require__(1);
+	__webpack_require__(195);
 	__webpack_require__(301);
 	module.exports = __webpack_require__(311);
 
@@ -23006,11 +23007,7 @@
 	        _react2.default.createElement(
 	          'header',
 	          null,
-	          _react2.default.createElement(
-	            'h1',
-	            null,
-	            'Car-Tographer'
-	          ),
+	          _react2.default.createElement('img', { className: 'logo', src: '../assets/images/logo.png' }),
 	          this.state.imagePreviewUrl ? _react2.default.createElement(
 	            'div',
 	            { className: 'display-upload header-upload' },
@@ -23114,7 +23111,8 @@
 	          resolve("");
 	        }, 200);
 	      });
-	      imagePromise.then(function () {
+	      imagePromise.then(function (data) {
+	
 	        console.log("Image conversion promise resolved.");
 	        console.log(_this2.state);
 	      });
@@ -23147,15 +23145,19 @@
 	              id: 'upload-photo-label' },
 	            'Upload a Vehicle Image'
 	          ),
-	          _react2.default.createElement('input', {
-	            onClick: function onClick(e) {
-	              return _this3.handleSubmit(e);
-	            },
-	            id: 'submit-btn',
-	            type: 'submit',
-	            name: 'submit',
-	            value: 'Submit',
-	            disabled: !this.state.file })
+	          _react2.default.createElement(
+	            'button',
+	            {
+	              onClick: function onClick(e) {
+	                return _this3.handleSubmit(e);
+	              },
+	              id: 'submit-btn',
+	              type: 'submit',
+	              name: 'submit',
+	              value: 'Submit',
+	              disabled: !this.state.file },
+	            'Submit Image'
+	          )
 	        )
 	      );
 	    }

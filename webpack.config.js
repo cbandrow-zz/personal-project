@@ -8,6 +8,7 @@ module.exports = {
      index: [
        './app',
        './app/index.js',
+       './app/components/ImageImport/ImageImport.js',
        'webpack-hot-middleware/client',
        'webpack/hot/dev-server'
      ],
