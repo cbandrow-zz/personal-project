@@ -34,7 +34,6 @@ export default class App extends Component {
   handleImageData(inputState){
     let content
     let statePromise = new Promise((resolve, reject)=>{
-      console.log('loading...')
       this.setState({
         error: false,
         apiResults: [],
@@ -42,14 +41,21 @@ export default class App extends Component {
         loadingStatus: true,
         imagePreviewUrl: inputState.imagePreviewUrl,
       })
-      setTimeout(function(){
-        resolve('promise resolved');
-      }, 1100);
+
+      setTimeout(()=>{
+        if(this.state.imagePreviewUrl && this.state.loadingStatus){
+          console.log('loading...')
+          resolve('imagePreviewUrl Set in State')
+        } else{
+          reject('Wasnt set in state')
+        }
+      }, 300);
     })
     statePromise.then(() =>{
       content = this.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '')
       this.sendDataCloudVision(content)
     })
+    .catch(() => console.log('Issue setting state of ImagePreview data'))
   }
 
   sendDataCloudVision(content){

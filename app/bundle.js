@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "0815388cdef560c7c89d"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "d4eb40b8fcdc68ffb4ea"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -585,6 +585,7 @@
 
 	__webpack_require__(1);
 	__webpack_require__(1);
+	__webpack_require__(195);
 	__webpack_require__(301);
 	module.exports = __webpack_require__(311);
 
@@ -22908,31 +22909,39 @@
 	  }, {
 	    key: 'handleImageData',
 	    value: function handleImageData(inputState) {
-	      var _this2 = this;
+	      // let content
+	      // let statePromise = new Promise((resolve, reject)=>{
+	      //   console.log('loading...')
+	      //   this.setState({
+	      //     error: false,
+	      //     apiResults: [],
+	      //     compareResults: [],
+	      //     loadingStatus: true,
+	      //     imagePreviewUrl: inputState.imagePreviewUrl,
+	      //   })
+	      //   setTimeout(function(){
+	      //     resolve('promise resolved');
+	      //   }, 1100);
+	      // })
+	      // statePromise.then(() =>{
+	      //   content = this.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '')
+	      //   this.sendDataCloudVision(content)
+	      // })
 	
-	      var content = void 0;
-	      var statePromise = new Promise(function (resolve, reject) {
-	        console.log('loading...');
-	        _this2.setState({
-	          error: false,
-	          apiResults: [],
-	          compareResults: [],
-	          loadingStatus: true,
-	          imagePreviewUrl: inputState.imagePreviewUrl
-	        });
-	        setTimeout(function () {
-	          resolve('promise resolved');
-	        }, 1100);
+	      this.setState({
+	        error: false,
+	        apiResults: [],
+	        compareResults: [],
+	        loadingStatus: true,
+	        imagePreviewUrl: inputState.imagePreviewUrl
 	      });
-	      statePromise.then(function () {
-	        content = _this2.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '');
-	        _this2.sendDataCloudVision(content);
-	      });
+	      var content = this.state.imagePreviewUrl.replace('data:image/jpeg;base64,', '');
+	      this.sendDataCloudVision(content);
 	    }
 	  }, {
 	    key: 'sendDataCloudVision',
 	    value: function sendDataCloudVision(content) {
-	      var _this3 = this;
+	      var _this2 = this;
 	
 	      var newContent = (0, _jsonData2.default)(content);
 	      var results = void 0;
@@ -22943,12 +22952,12 @@
 	      }).then(function (resp) {
 	        return resp.json();
 	      }).then(function (data) {
-	        results = _this3.helper.cleanResponseData(data);
+	        results = _this2.helper.cleanResponseData(data);
 	        console.log('...done');
 	        return results;
 	      }).then(function (results) {
-	        var returnMatches = _this3.helper.getPotentialMakes(results, _this3.state.completeVehicles);
-	        _this3.setState({
+	        var returnMatches = _this2.helper.getPotentialMakes(results, _this2.state.completeVehicles);
+	        _this2.setState({
 	          apiResults: returnMatches[1]
 	        });
 	
@@ -22957,14 +22966,14 @@
 	        });
 	        return makes;
 	      }).then(function (makes) {
-	        var modelMatches = _this3.helper.getPotentialModels(_this3.state.apiResults, _this3.state.completeVehicles, makes);
+	        var modelMatches = _this2.helper.getPotentialModels(_this2.state.apiResults, _this2.state.completeVehicles, makes);
 	
-	        _this3.setState({
+	        _this2.setState({
 	          compareResults: modelMatches,
 	          loadingStatus: false
 	        });
 	      }).then(function (data) {
-	        return _this3.determineError();
+	        return _this2.determineError();
 	      }).catch(function (err) {
 	        return console.log(err);
 	      });
@@ -23006,11 +23015,7 @@
 	        _react2.default.createElement(
 	          'header',
 	          null,
-	          _react2.default.createElement(
-	            'h1',
-	            null,
-	            'Car-Tographer'
-	          ),
+	          _react2.default.createElement('img', { className: 'logo', src: '../assets/images/logo.png' }),
 	          this.state.imagePreviewUrl ? _react2.default.createElement(
 	            'div',
 	            { className: 'display-upload header-upload' },
@@ -23102,22 +23107,13 @@
 	      var reader = new FileReader();
 	      var file = e.target.files[0];
 	
-	      var imagePromise = new Promise(function (resolve, reject) {
-	        reader.readAsDataURL(file);
-	        reader.onloadend = function () {
-	          _this2.setState({
-	            file: file,
-	            imagePreviewUrl: reader.result
-	          });
-	        };
-	        setTimeout(function () {
-	          resolve("");
-	        }, 200);
-	      });
-	      imagePromise.then(function () {
-	        console.log("Image conversion promise resolved.");
-	        console.log(_this2.state);
-	      });
+	      reader.readAsDataURL(file);
+	      reader.onloadend = function () {
+	        _this2.setState({
+	          file: file,
+	          imagePreviewUrl: reader.result
+	        });
+	      };
 	    }
 	  }, {
 	    key: 'render',
@@ -23147,15 +23143,19 @@
 	              id: 'upload-photo-label' },
 	            'Upload a Vehicle Image'
 	          ),
-	          _react2.default.createElement('input', {
-	            onClick: function onClick(e) {
-	              return _this3.handleSubmit(e);
-	            },
-	            id: 'submit-btn',
-	            type: 'submit',
-	            name: 'submit',
-	            value: 'Submit',
-	            disabled: !this.state.file })
+	          _react2.default.createElement(
+	            'button',
+	            {
+	              onClick: function onClick(e) {
+	                return _this3.handleSubmit(e);
+	              },
+	              id: 'submit-btn',
+	              type: 'submit',
+	              name: 'submit',
+	              value: 'Submit',
+	              disabled: !this.state.file },
+	            'Submit Image'
+	          )
 	        )
 	      );
 	    }
