@@ -8,6 +8,7 @@ import jsonData from './helpers/jsonData.js'
 import key2 from './helpers/apiKey.js'
 import stubData from './helpers/stubbeddata.js'
 import vehicleData from './helpers/vehicleData.js'
+import LandingPage from './LandingPage/LandingPage'
 
 export default class App extends Component {
   constructor(data){
@@ -133,9 +134,7 @@ export default class App extends Component {
         </header>
         <section className = "main-content">
           {!this.state.imagePreviewUrl ?
-            <div className = 'display-upload body-upload'>
-              <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
-            </div>
+              <LandingPage handleImageData = {this.handleImageData}/>
           : null}
           {this.displayComponents()}
         </section>
@@ -143,3 +142,6 @@ export default class App extends Component {
     )
   }
 }
+
+/* <div className = 'display-upload body-upload'>
+  <ImageImport handleImageData = {this.handleImageData.bind(this)}/> */
