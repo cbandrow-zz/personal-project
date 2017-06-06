@@ -6,6 +6,7 @@ import stubData from './helpers/stubbeddata.js';
 import App from './App.js';
 import key2 from './helpers/apiKey'
 import Helper from './helpers/helper'
+import LandingPage from './LandingPage/LandingPage'
 
 describe('Main App Tests', () =>{
 
@@ -131,9 +132,10 @@ describe('Main App Tests', () =>{
     expect(wrapper.state.error).toEqual(true)
   })
 
-  it('should render the inputs to the main body when uploading images', () =>{
+  it('should render the LandingPage component', () =>{
     const wrapper = shallow(<App/>)
-    expect(wrapper.find('.body-upload').length).toEqual(1)
+
+    expect(wrapper.find('LandingPage').length).toEqual(1)
   })
 
   it('should render inputs in the header if content has already been uploaded.', () =>{

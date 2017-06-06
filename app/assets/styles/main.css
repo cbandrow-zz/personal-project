@@ -9,6 +9,7 @@ body {
   font-family: sans-serif;
   font-weight: 100;
   margin: 0;
+  background: #cfcfcf;
 }
 
 header{
@@ -20,14 +21,11 @@ header{
   background: linear-gradient(to bottom, #939393 0%,#545454 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#939393', endColorstr='#545454',GradientType=0 );
   margin: 0;
-  border-bottom: 3px dashed #aaa;
   display: flex;
 }
 
 #main{
   height: 100vh;
-  background-image: url('../images/road.jpg');
-  background-size: cover;
 }
 
 .main-content{
@@ -35,7 +33,12 @@ header{
   flex-direction: row;
   align-items: center;
   text-align: center;
-  margin-top: 15px;
+  height: 100%;
+}
+
+.main-background{
+  background-image: url('../images/road.jpg');
+  background-size: cover;
 }
 
 header h1 {
@@ -70,7 +73,10 @@ header h1 {
 
 .image-holder{
   display: inline-block;
+  min-height: 10%;
+  max-height: 50%;
   width: 50%;
+  min-width: 50%;
   background-color: #ddd;
   box-shadow: 0px 0px 4px #222;
   margin-right: 10px;
@@ -78,18 +84,43 @@ header h1 {
 
 .content-holder{
   display: flex;
+  height: 100vh;
   width: 90%;
   margin-left: auto;
   margin-right: auto;
   justify-content: space-between;
+  margin-top: 45px;
+}
+
+.components-holder{
+  height: 100vh;
 }
 
 .results-holder{
   display: inline-block;
+  min-height: 10%;
+  max-height: 50%;
+  height: auto;
   width: 50%;
+  min-width: 50%;
   background-color: #ddd;
   box-shadow: 0px 0px 4px #222;
   margin-left: 10px;
+}
+
+.results-holder h3{
+  font-size: 18px;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.result{
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.result h2{
+  margin: 0;
 }
 
 .logo{
@@ -102,6 +133,10 @@ header h1 {
   margin-top: 50px;
 }
 
+.landing-page{
+  width: 100%;
+}
+
 #fileInput{
   height: 0;
   width: 0;
@@ -112,14 +147,15 @@ header h1 {
 }
 
 #upload-photo-label {
-  border: 2px solid #ccc;
-  background-color: #efefef;
+  border: 2px solid #cdcdcd;
+  background-color: #FED750;
   padding: 11.5px 40px;
   font-size: 13px;
   margin-right: 0px;
   margin-top: 5px;
   vertical-align: middle;
   box-shadow: 0px 0px 4px #555;
+  color: #444;
 }
 
 #upload-photo-label:active{
@@ -130,6 +166,17 @@ header h1 {
 #upload-photo-label:focus{
   background-color: #ffe48c;
   outline: none;
+}
+
+#uploaded{
+  background-color: #dcdcdc;
+  padding: 11.5px 40px;
+  font-size: 13px;
+  margin-right: 0px;
+  margin-top: 5px;
+  vertical-align: middle;
+  box-shadow: 0px 0px 4px #555;
+  color: #444;
 }
 
 #submit-btn{
@@ -164,4 +211,29 @@ header h1 {
   margin-bottom: 10%;
   vertical-align: middle;
   box-shadow: 0px 0px 2px #444;
+}
+
+.video-bg {
+  width: 100%;
+  position: relative;
+  z-index: 0;
+}
+
+.overlay{
+  width: 100%;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index:1;
+  color: white;
+  background-color: #ddd;
+  background-color: rgba(155, 155, 155, 0.79);
+  box-shadow: 0px 0px 4px #222;
+  height: 22%;
+}
+
+.video {
+  width: 100%;
+  height: 100%;
 }

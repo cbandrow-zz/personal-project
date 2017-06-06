@@ -8,6 +8,7 @@ import jsonData from './helpers/jsonData.js'
 import key2 from './helpers/apiKey.js'
 import stubData from './helpers/stubbeddata.js'
 import vehicleData from './helpers/vehicleData.js'
+import LandingPage from './LandingPage/LandingPage'
 
 export default class App extends Component {
   constructor(data){
@@ -97,11 +98,11 @@ export default class App extends Component {
   displayComponents(){
     if(this.state.imagePreviewUrl){
       return (
-        <div className = 'content-holder'>
-          <ImageHolder url = {this.state.imagePreviewUrl}/>
-          <ResultsHolder cars = {this.state.compareResults}
-          loadingStatus = {this.state.loadingStatus} error = {this.state.error}/>
-        </div>
+          <section className = 'content-holder'>
+            <ImageHolder url = {this.state.imagePreviewUrl}/>
+            <ResultsHolder cars = {this.state.compareResults}
+              loadingStatus = {this.state.loadingStatus} error = {this.state.error}/>
+            </section>
       )
     }
   }
@@ -131,11 +132,9 @@ export default class App extends Component {
             </div>
           : null}
         </header>
-        <section className = "main-content">
+        <section className = {!this.state.imagePreviewUrl ? `main-content` : `main-content main-background`}>
           {!this.state.imagePreviewUrl ?
-            <div className = 'display-upload body-upload'>
-              <ImageImport handleImageData = {this.handleImageData.bind(this)}/>
-            </div>
+              <LandingPage handleImageData = {this.handleImageData.bind(this)}/>
           : null}
           {this.displayComponents()}
         </section>

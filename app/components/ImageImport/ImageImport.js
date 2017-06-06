@@ -47,7 +47,7 @@ export default class ImportImage extends Component {
             onChange = {(e) => this.handleImageUpload(e)}/>
           <label
             htmlFor= "fileInput"
-            id="upload-photo-label">Upload a Vehicle Image</label>
+            id = {this.state.file ? `uploaded`: `upload-photo-label`}>Upload a Vehicle Image</label>
           <button
             onClick = {(e) => this.handleSubmit(e)}
             id = "submit-btn"
