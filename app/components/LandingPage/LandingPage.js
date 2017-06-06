@@ -10,7 +10,8 @@ const LandingPage = ({handleImageData}) => {
         </video>
       </div>
       <div className = "overlay">
-        <h2>Find out the Make and Model of a Vehicle with the snap of a photo</h2>
+        <h2>Find out the make and model of a car with the snap of a photo</h2>
+        <ImageImport handleImageData = {handleImageData}/>
       </div>
     </section>
   )

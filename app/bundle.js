@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "419ba2f04e07074bccf0"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "9cbfaee16302da328067"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22986,7 +22986,7 @@
 	    value: function displayComponents() {
 	      if (this.state.imagePreviewUrl) {
 	        return _react2.default.createElement(
-	          'div',
+	          'section',
 	          { className: 'content-holder' },
 	          _react2.default.createElement(_ImageHolder2.default, { url: this.state.imagePreviewUrl }),
 	          _react2.default.createElement(_ResultsHolder2.default, { cars: this.state.compareResults,
@@ -23027,8 +23027,8 @@
 	        ),
 	        _react2.default.createElement(
 	          'section',
-	          { className: 'main-content' },
-	          !this.state.imagePreviewUrl ? _react2.default.createElement(_LandingPage2.default, { handleImageData: this.handleImageData }) : null,
+	          { className: !this.state.imagePreviewUrl ? 'main-content' : 'main-content main-background' },
+	          !this.state.imagePreviewUrl ? _react2.default.createElement(_LandingPage2.default, { handleImageData: this.handleImageData.bind(this) }) : null,
 	          this.displayComponents()
 	        )
 	      );
@@ -23037,10 +23037,6 @@
 	
 	  return App;
 	}(_react.Component);
-	
-	/* <div className = 'display-upload body-upload'>
-	  <ImageImport handleImageData = {this.handleImageData.bind(this)}/> */
-	
 	
 	exports.default = App;
 	
@@ -23143,7 +23139,7 @@
 	            'label',
 	            {
 	              htmlFor: 'fileInput',
-	              id: 'upload-photo-label' },
+	              id: this.state.file ? 'uploaded' : 'upload-photo-label' },
 	            'Upload a Vehicle Image'
 	          ),
 	          _react2.default.createElement(
@@ -23424,7 +23420,7 @@
 
 	/* WEBPACK VAR INJECTION */(function(module) {/* REACT HOT LOADER */ if (true) { (function () { var ReactHotAPI = __webpack_require__(3), RootInstanceProvider = __webpack_require__(11), ReactMount = __webpack_require__(13), React = __webpack_require__(103); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 	
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -23440,10 +23436,10 @@
 	  var car = _ref.car;
 	
 	  return _react2.default.createElement(
-	    'div',
-	    null,
+	    "div",
+	    { className: "result" },
 	    _react2.default.createElement(
-	      'h2',
+	      "h2",
 	      null,
 	      car
 	    )
@@ -23987,8 +23983,9 @@
 	      _react2.default.createElement(
 	        'h2',
 	        null,
-	        'Find out the Make and Model of a Vehicle with the snap of a photo'
-	      )
+	        'Find out the make and model of a car with the snap of a photo'
+	      ),
+	      _react2.default.createElement(_ImageImport2.default, { handleImageData: handleImageData })
 	    )
 	  );
 	};

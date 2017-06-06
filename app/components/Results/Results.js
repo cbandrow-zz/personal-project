@@ -2,7 +2,7 @@ import React from 'react'
 
 const Results = ({car}) =>{
   return (
-    <div>
+    <div className = "result">
       <h2>{car}</h2>
     </div>
   )
