@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "0e293cdd2b6fdec630c0"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "fa870a0f047e5505f2e8"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -24120,6 +24120,7 @@
 	
 	    _this.helper = new _helper2.default();
 	    _this.state = {
+	      value: '',
 	      selectedYear: '',
 	      image: ''
 	    };
@@ -24136,7 +24137,7 @@
 	    value: function getImage(carData) {
 	      var _this2 = this;
 	
-	      var year = this.state.selectedYear || carData.years[0];
+	      var year = this.state.value || carData.years[0];
 	      fetch('https://api.cognitive.microsoft.com/bing/v5.0/images/search?q=' + year + '+' + carData.make + '+' + carData.model + '&count=5&mkt=en-us', {
 	        method: 'GET',
 	        headers: {
@@ -24148,7 +24149,6 @@
 	      }).then(function (data) {
 	        console.log('original data', data);
 	        var reducedImages = _this2.helper.reduceImageResponse(data);
-	        console.log(reducedImages);
 	        return reducedImages;
 	      }).then(function (reducedImages) {
 	        _this2.setState({
@@ -24156,6 +24156,13 @@
 	        });
 	      }).catch(function (err) {
 	        return console.log(err);
+	      });
+	    }
+	  }, {
+	    key: 'handleSelectChange',
+	    value: function handleSelectChange(e) {
+	      this.setState({
+	        value: e.target.value
 	      });
 	    }
 	  }, {
@@ -24186,33 +24193,31 @@
 	            'section',
 	            { className: 'years-container' },
 	            _react2.default.createElement(
-	              'p',
+	              'label',
 	              null,
-	              'Years Manufactured: ',
+	              'Select a Vehicle Year'
+	            ),
+	            _react2.default.createElement(
+	              'select',
+	              {
+	                value: this.state.value, onChange: function onChange(e) {
+	                  return _this3.handleSelectChange(e);
+	                } },
 	              carData.years.map(function (year, i) {
-	                if (i === carData.years.length - 1) {
-	                  return _react2.default.createElement(
-	                    'span',
-	                    { className: 'year-image',
-	                      onClick: function onClick() {
-	                        _this3.setState({ selectedYear: year });
-	                        _this3.getImage(carData);
-	                      } },
-	                    year,
-	                    ' '
-	                  );
-	                } else {
-	                  return _react2.default.createElement(
-	                    'span',
-	                    { onClick: function onClick() {
-	                        _this3.setState({ selectedYear: year });
-	                        _this3.getImage(carData);
-	                      } },
-	                    year,
-	                    ', '
-	                  );
-	                }
+	                return _react2.default.createElement(
+	                  'option',
+	                  { key: i,
+	                    value: year },
+	                  year
+	                );
 	              })
+	            ),
+	            _react2.default.createElement(
+	              'button',
+	              { onClick: function onClick() {
+	                  _this3.getImage(carData);
+	                } },
+	              'Display Vehicle by Year'
 	            )
 	          ),
 	          _react2.default.createElement(

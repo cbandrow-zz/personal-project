@@ -8,6 +8,7 @@ export default class DisplayCarFacts extends Component{
     super()
     this.helper = new Helper()
     this.state = {
+      value: '',
       selectedYear: '',
       image: '',
     }
@@ -18,7 +19,7 @@ export default class DisplayCarFacts extends Component{
   }
 
   getImage(carData){
-    let year = this.state.selectedYear || carData.years[0]
+    let year = this.state.value || carData.years[0]
     fetch(`https://api.cognitive.microsoft.com/bing/v5.0/images/search?q=${year}+${carData.make}+${carData.model}&count=5&mkt=en-us`,{
       method: 'GET',
       headers: {
@@ -40,6 +41,12 @@ export default class DisplayCarFacts extends Component{
     .catch(err => console.log(err))
   }
 
+  handleSelectChange(e){
+    this.setState({
+      value: e.target.value
+    });
+  }
+
   render(){
     let carData = this.props.carData
     return (
@@ -48,24 +55,18 @@ export default class DisplayCarFacts extends Component{
         <div className = "selected-image"><img src = {this.state.image}/></div>
         <div className = "selected-content">
           <section className = "years-container">
-            <p>Years Manufactured: {carData.years.map((year, i) =>{
-              if(i === carData.years.length - 1){
-                return(
-                  <span className = "year-image"
-                    onClick = {() =>{
-                    this.setState({selectedYear: year})
-                    this.getImage(carData)
-                  }}>{year} </span>
-                )
-              } else {
-                return(
-                  <span onClick = {() =>{
-                    this.setState({selectedYear: year})
-                    this.getImage(carData)
-                  }}>{year}, </span>
-                )
+            <label>Select a Vehicle Year</label>
+            <select
+              value={this.state.value} onChange={(e) => this.handleSelectChange(e)}>
+              {carData.years.map((year, i) => {
+                return (
+                  <option key={i}
+                    value={year}>{year}</option>
+                  )
+                })
               }
-            })}</p>
+            </select>
+            <button onClick = {()=>{this.getImage(carData)}}>Display Vehicle by Year</button>
           </section>
           <section className = "info-container">
             <p className = "details">{carData.details}</p>
