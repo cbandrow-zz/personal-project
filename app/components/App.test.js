@@ -33,6 +33,8 @@ describe('Main App Tests', () =>{
       compareResults: [],
       loadingStatus: false,
       error: '',
+      makeMatches: [],
+      carData: '',
     }
 
     expect(wrapper.state()).toEqual(expectedState)
@@ -145,4 +147,22 @@ describe('Main App Tests', () =>{
     })
     expect(wrapper.find('.header-upload').length).toEqual(1)
   })
+
+  it('should display carInfo', () =>{
+    const wrapper = shallow(<App/>)
+    let stubCarData = {
+      make: 'Mazda',
+      model: 'MX-5 Miata',
+      years: [2008, 2009, 2010],
+      link: 'website.com',
+      details: 'car is cool, convertible, fun to drive',
+    }
+
+    wrapper.setState({
+      carData: stubCarData
+    })
+
+    expect(wrapper.find('.car-facts').length).toEqual(0);
+  })
+
 })
