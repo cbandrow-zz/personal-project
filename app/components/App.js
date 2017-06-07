@@ -9,6 +9,10 @@ import key2 from './helpers/apiKey.js'
 import stubData from './helpers/stubbeddata.js'
 import vehicleData from './helpers/vehicleData.js'
 import LandingPage from './LandingPage/LandingPage'
+import DisplayCarFacts from './DisplayCarFacts/DisplayCarFacts'
+
+import key from './helpers/edumundsApi'
+import stubbedInfoData from './helpers/stubbedInfoData'
 
 export default class App extends Component {
   constructor(data){
@@ -21,6 +25,8 @@ export default class App extends Component {
       compareResults: [],
       loadingStatus: false,
       error: '',
+      makeMatches: [],
+      carData: '',
     }
   }
 
@@ -41,6 +47,7 @@ export default class App extends Component {
         compareResults: [],
         loadingStatus: true,
         imagePreviewUrl: inputState.imagePreviewUrl,
+        carData: '',
       })
 
       setTimeout(()=>{
@@ -75,7 +82,8 @@ export default class App extends Component {
      .then((results) =>{
       let returnMatches = this.helper.getPotentialMakes(results, this.state.completeVehicles)
       this.setState({
-        apiResults: returnMatches[1]
+        makeMatches: returnMatches[0],
+        apiResults: returnMatches[1],
       })
 
       let makes = returnMatches[0].map((makeData) =>{
@@ -95,18 +103,6 @@ export default class App extends Component {
      .catch(err => console.log(err))
   }
 
-  displayComponents(){
-    if(this.state.imagePreviewUrl){
-      return (
-          <section className = 'content-holder'>
-            <ImageHolder url = {this.state.imagePreviewUrl}/>
-            <ResultsHolder cars = {this.state.compareResults}
-              loadingStatus = {this.state.loadingStatus} error = {this.state.error}/>
-            </section>
-      )
-    }
-  }
-
   determineError(){
     if(this.state.loadingStatus === false && this.state.compareResults.length < 1 && this.state.apiResults){
       console.log("error?")
@@ -118,6 +114,54 @@ export default class App extends Component {
         error: false,
       })
       console.log("loading complete")
+    }
+  }
+
+  handleResultData(car){
+    let make = this.state.makeMatches.filter((make) =>{
+      return car.includes(make)
+    })
+    let model = car.replace(`${make} `, '')
+    this.getCarData(make, model)
+  }
+
+  getCarData(make, model){
+    // fetch(`https://api.edmunds.com/api/editorial/v2/${make}/${model}?view=basic&fmt=json&api_key=${key}`)
+    // .then(resp => resp.json())
+    // .then((data) =>{
+    //   this.setState({
+    //     carData: this.helper.reduceCarDetails(data),
+    //   })
+    // })
+    // .catch(err => console.log(err))
+
+    let carData = this.helper.reduceCarDetails(stubbedInfoData)
+    this.setState({
+      carData: carData,
+    })
+    console.log(carData)
+  }
+
+  displayComponents(){
+    if(this.state.imagePreviewUrl){
+      return (
+          <section className = 'content-holder'>
+            <ImageHolder url = {this.state.imagePreviewUrl}/>
+            <ResultsHolder cars = {this.state.compareResults}
+              loadingStatus = {this.state.loadingStatus} error = {this.state.error} handleResultData = {this.handleResultData.bind(this)}/>
+              {this.displayCarInfo()}
+            </section>
+      )
+    }
+  }
+
+  displayCarInfo(){
+    if(this.state.carData){
+      return (
+        <section className = "car-facts">
+          <DisplayCarFacts carData = {this.state.carData}/>
+        </section>
+      )
     }
   }
 

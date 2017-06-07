@@ -71,55 +71,81 @@ header h1 {
   margin-top: 20px;
 }
 
-.image-holder{
-  display: inline-block;
-  min-height: 10%;
-  max-height: 50%;
-  width: 50%;
-  min-width: 50%;
-  background-color: #ddd;
-  box-shadow: 0px 0px 4px #222;
-  margin-right: 10px;
-}
-
 .content-holder{
   display: flex;
+  flex-wrap: wrap;
   height: 100vh;
   width: 90%;
   margin-left: auto;
   margin-right: auto;
-  justify-content: space-between;
+  justify-content: space-around;
   margin-top: 45px;
+}
+
+.image-holder{
+  display: inline-block;
+  width: 45%;
+  min-height: 30%;
+  height: 50%;
+  background-color: #ddd;
+  box-shadow: 0px 0px 4px #222;
+}
+
+.car-facts{
+  display: block;
+  width: 95%;
+  height: 40%;
+  margin-top: 20px;
+  background-color: #ddd;
+  box-shadow: 0px 0px 4px #222;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.results-holder{
+  display: inline-block;
+  min-height: 30%;
+  height: 50%;
+  width: 45%;
+  background-color: #ddd;
+  box-shadow: 0px 0px 4px #222;
 }
 
 .components-holder{
   height: 100vh;
 }
 
-.results-holder{
-  display: inline-block;
-  min-height: 10%;
-  max-height: 50%;
-  height: auto;
-  width: 50%;
-  min-width: 50%;
-  background-color: #ddd;
-  box-shadow: 0px 0px 4px #222;
-  margin-left: 10px;
-}
-
 .results-holder h3{
+  text-align: center;
   font-size: 18px;
   margin-left: 5px;
   margin-right: 5px;
 }
 
 .result{
+  margin-left: auto;
+  margin-right: auto;
+  width: 70%;
+  height: 40px;
+  background-color: #FED750;
+  padding-top: 2px;
+  padding-bottom: 2px;
   margin-top: 20px;
   margin-bottom: 20px;
+  box-shadow: 0px 0px 2px #222;
+  border: 1px solid #cdcdcd;
+}
+
+.result:hover{
+  background-color: #fcdc71;
+}
+
+.result:active{
+  background-color: #ffe48c;
 }
 
 .result h2{
+  width: auto;
   margin: 0;
 }
 
@@ -158,6 +184,10 @@ header h1 {
   color: #444;
 }
 
+#upload-photo-label:hover{
+  background-color: #fcdc71;
+}
+
 #upload-photo-label:active{
   background-color: #dcdcdc;
   outline:none;
@@ -179,6 +209,10 @@ header h1 {
   color: #444;
 }
 
+#uploaded:hover{
+  background-color: #fcdc71;
+}
+
 #submit-btn{
   vertical-align: middle;
   background-color: #FED750;
@@ -189,6 +223,10 @@ header h1 {
   border-style: solid;
   border: 1px solid #cdcdcd;
   box-shadow: 0px 0px 4px #555;
+}
+
+#submit-btn:hover{
+  background-color: #fcdc71;
 }
 
 #submit-btn:active{
@@ -206,7 +244,8 @@ header h1 {
 }
 
 #image{
-  width: 90%;
+  max-width: 80%;
+  max-height: 80%;
   margin-top: 10%;
   margin-bottom: 10%;
   vertical-align: middle;

@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Results = ({car}) =>{
+const Results = ({car, handleResultData}) =>{
   return (
-    <div className = "result">
+    <div onClick = {() => handleResultData(car)} className = "result">
       <h2>{car}</h2>
     </div>
   )

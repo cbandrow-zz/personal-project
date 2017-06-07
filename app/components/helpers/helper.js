@@ -81,4 +81,18 @@ export default class Helper{
       return arr.indexOf(data) === i;
     })
   }
+
+  reduceCarDetails(data){
+
+    let carData = {
+      make: data.make.name,
+      model: data.model.name,
+      details: data.description,
+      years: data.years.map((year) =>{
+        return year.year
+      }),
+      link: data.link.href,
+    }
+    return carData
+  }
 }
