@@ -139,7 +139,6 @@ export default class App extends Component {
     this.setState({
       carData: carData,
     })
-    console.log(carData)
   }
 
   displayComponents(){

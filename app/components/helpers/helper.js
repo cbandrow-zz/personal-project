@@ -88,6 +88,7 @@ export default class Helper{
       make: data.make.name,
       model: data.model.name,
       details: data.description,
+      summary: data.introduction,
       years: data.years.map((year) =>{
         return year.year
       }),

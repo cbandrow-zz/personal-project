@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "4d7107fa9bd2ac0173b6"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "05987e02fe6aaf925f4a"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -23024,19 +23024,22 @@
 	  }, {
 	    key: 'getCarData',
 	    value: function getCarData(make, model) {
-	      // fetch(`https://api.edmunds.com/api/editorial/v2/${make}/${model}?view=basic&fmt=json&api_key=${key}`)
-	      // .then(resp => resp.json())
-	      // .then((data) =>{
-	      //   this.setState({
-	      //     carData: this.helper.reduceCarDetails(data),
-	      //   })
-	      // })
-	      // .catch(err => console.log(err))
+	      var _this4 = this;
 	
-	      var carData = this.helper.reduceCarDetails(_stubbedInfoData2.default);
-	      this.setState({
-	        carData: carData
+	      fetch('https://api.edmunds.com/api/editorial/v2/' + make + '/' + model + '?view=basic&fmt=json&api_key=' + _edumundsApi2.default).then(function (resp) {
+	        return resp.json();
+	      }).then(function (data) {
+	        _this4.setState({
+	          carData: _this4.helper.reduceCarDetails(data)
+	        });
+	      }).catch(function (err) {
+	        return console.log(err);
 	      });
+	
+	      // let carData = this.helper.reduceCarDetails(stubbedInfoData)
+	      // this.setState({
+	      //   carData: carData,
+	      // })
 	      console.log(carData);
 	    }
 	  }, {
@@ -23625,6 +23628,7 @@
 	        make: data.make.name,
 	        model: data.model.name,
 	        details: data.description,
+	        summary: data.introduction,
 	        years: data.years.map(function (year) {
 	          return year.year;
 	        }),
@@ -24075,7 +24079,7 @@
 
 	/* WEBPACK VAR INJECTION */(function(module) {/* REACT HOT LOADER */ if (true) { (function () { var ReactHotAPI = __webpack_require__(3), RootInstanceProvider = __webpack_require__(11), ReactMount = __webpack_require__(13), React = __webpack_require__(103); module.makeHot = module.hot.data ? module.hot.data.makeHot : ReactHotAPI(function () { return RootInstanceProvider.getRootInstances(ReactMount); }, React); })(); } try { (function () {
 	
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -24091,42 +24095,54 @@
 	  var carData = _ref.carData;
 	
 	  return _react2.default.createElement(
-	    'div',
+	    "div",
 	    null,
 	    _react2.default.createElement(
-	      'h2',
+	      "h2",
 	      null,
-	      (carData.make, carData.model)
+	      carData.make,
+	      " ",
+	      carData.model
 	    ),
 	    _react2.default.createElement(
-	      'p',
+	      "p",
 	      null,
-	      carData.years.map(function (year) {
-	        return _react2.default.createElement(
-	          'span',
-	          null,
-	          year,
-	          ' '
-	        );
+	      "Years Manufactured: ",
+	      carData.years.map(function (year, i) {
+	        if (i === carData.years.length - 1) {
+	          return _react2.default.createElement(
+	            "span",
+	            null,
+	            year,
+	            " "
+	          );
+	        } else {
+	          return _react2.default.createElement(
+	            "span",
+	            null,
+	            year,
+	            ", "
+	          );
+	        }
 	      })
 	    ),
 	    _react2.default.createElement(
-	      'p',
-	      null,
+	      "p",
+	      { className: "details" },
 	      carData.details
 	    ),
 	    _react2.default.createElement(
-	      'p',
+	      "p",
 	      null,
-	      'To find out more, visit ',
+	      "To find out more, visit ",
 	      _react2.default.createElement(
-	        'a',
+	        "a",
 	        { href: carData.link },
-	        'Edumunds ',
+	        "Edumunds ",
 	        carData.make,
-	        ' and ',
+	        " and ",
 	        carData.model,
-	        ' page'
+	        " page"
 	      )
 	    )
 	  );
