@@ -9,13 +9,22 @@ export default class DisplayCarFacts extends Component{
     this.helper = new Helper()
     this.state = {
       value: '',
-      selectedYear: '',
       image: '',
     }
   }
 
   componentDidMount(){
     this.getImage(this.props.carData)
+  }
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.carData.years !== this.props.carData.years){
+      console.log('fired')
+      this.setState({
+        value: '',
+      })
+      this.getImage(nextProps.carData)
+    }
   }
 
   getImage(carData){

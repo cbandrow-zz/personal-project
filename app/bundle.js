@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "fa870a0f047e5505f2e8"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "3d2ae82fdc748bc68b30"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -23024,19 +23024,22 @@
 	  }, {
 	    key: 'getCarData',
 	    value: function getCarData(make, model) {
-	      // fetch(`https://api.edmunds.com/api/editorial/v2/${make}/${model}?view=basic&fmt=json&api_key=${key}`)
-	      // .then(resp => resp.json())
-	      // .then((data) =>{
-	      //   this.setState({
-	      //     carData: this.helper.reduceCarDetails(data),
-	      //   })
-	      // })
-	      // .catch(err => console.log(err))
+	      var _this4 = this;
 	
-	      var carData = this.helper.reduceCarDetails(_stubbedInfoData2.default);
-	      this.setState({
-	        carData: carData
+	      fetch('https://api.edmunds.com/api/editorial/v2/' + make + '/' + model + '?view=basic&fmt=json&api_key=' + _edmundsApi2.default).then(function (resp) {
+	        return resp.json();
+	      }).then(function (data) {
+	        _this4.setState({
+	          carData: _this4.helper.reduceCarDetails(data)
+	        });
+	      }).catch(function (err) {
+	        return console.log(err);
 	      });
+	      //
+	      // let carData = this.helper.reduceCarDetails(stubbedInfoData)
+	      // this.setState({
+	      //   carData: carData,
+	      // })
 	    }
 	  }, {
 	    key: 'displayComponents',
@@ -24121,7 +24124,6 @@
 	    _this.helper = new _helper2.default();
 	    _this.state = {
 	      value: '',
-	      selectedYear: '',
 	      image: ''
 	    };
 	    return _this;
@@ -24131,6 +24133,17 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      this.getImage(this.props.carData);
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (nextProps.carData.years !== this.props.carData.years) {
+	        console.log('fired');
+	        this.setState({
+	          value: ''
+	        });
+	        this.getImage(nextProps.carData);
+	      }
 	    }
 	  }, {
 	    key: 'getImage',
