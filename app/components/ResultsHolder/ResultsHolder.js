@@ -1,7 +1,7 @@
 import React from 'react'
 import Results from '../Results/Results'
 
-const ResultsHolder = ({cars, loadingStatus, error}) =>{
+const ResultsHolder = ({cars, loadingStatus, error, handleResultData}) =>{
   return (
     <section className = "results-holder">
       {lengthMessage(cars, error)}
@@ -9,7 +9,7 @@ const ResultsHolder = ({cars, loadingStatus, error}) =>{
       {cars.map((car, i)=>{
         return(
           <div key = {i}>
-            <Results car = {car}/>
+            <Results car = {car} handleResultData = {handleResultData}/>
           </div>
         )
       })}
