@@ -78,17 +78,33 @@ header h1 {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-top: 45px;
 }
 
 .image-holder{
   display: inline-block;
+  position: relative;
   width: 45%;
   min-height: 30%;
-  height: 50%;
+  height: auto;
+  max-height: 55%;
   background-color: #ddd;
   box-shadow: 0px 0px 4px #222;
+}
+
+#image{
+  display: block;
+  margin: 0;
+  position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); 
+  max-width: 75%;
+  max-height: 75%;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0px 0px 2px #444;
 }
 
 .car-facts{
@@ -105,7 +121,8 @@ header h1 {
 .results-holder{
   display: inline-block;
   min-height: 30%;
-  height: 50%;
+  height: auto;
+  max-height: 55%;
   width: 45%;
   background-color: #ddd;
   box-shadow: 0px 0px 4px #222;
@@ -241,15 +258,6 @@ header h1 {
 
 #submit-btn:focus{
   outline: none;
-}
-
-#image{
-  max-width: 80%;
-  max-height: 80%;
-  margin-top: 10%;
-  margin-bottom: 10%;
-  vertical-align: middle;
-  box-shadow: 0px 0px 2px #444;
 }
 
 .video-bg {
