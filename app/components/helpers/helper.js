@@ -83,7 +83,6 @@ export default class Helper{
   }
 
   reduceCarDetails(data){
-
     let carData = {
       make: data.make.name,
       model: data.model.name,
@@ -95,5 +94,10 @@ export default class Helper{
       link: data.link.href,
     }
     return carData
+  }
+
+  reduceImageResponse(data){
+    let imageData = data.value[1].contentUrl
+    return imageData
   }
 }

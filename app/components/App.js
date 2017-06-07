@@ -11,7 +11,7 @@ import vehicleData from './helpers/vehicleData.js'
 import LandingPage from './LandingPage/LandingPage'
 import DisplayCarFacts from './DisplayCarFacts/DisplayCarFacts'
 
-import key from './helpers/edumundsApi'
+import key from './helpers/edmundsApi'
 import stubbedInfoData from './helpers/stubbedInfoData'
 
 export default class App extends Component {
