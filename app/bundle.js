@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "078b816287492bc1ca7c"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "7224e0faa32d5f7e6ab7"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -24179,22 +24179,26 @@
 	      var carData = this.props.carData;
 	      return _react2.default.createElement(
 	        'div',
-	        null,
-	        _react2.default.createElement(
-	          'h2',
-	          null,
-	          carData.make,
-	          ' ',
-	          carData.model
-	        ),
+	        { className: 'selected-general' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'selected-image' },
-	          _react2.default.createElement('img', { src: this.state.image })
+	          { className: 'selected-image-container' },
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'selected-image' },
+	            _react2.default.createElement('img', { src: this.state.image })
+	          )
 	        ),
 	        _react2.default.createElement(
 	          'div',
 	          { className: 'selected-content' },
+	          _react2.default.createElement(
+	            'h2',
+	            null,
+	            carData.make,
+	            ' ',
+	            carData.model
+	          ),
 	          _react2.default.createElement(
 	            'section',
 	            { className: 'years-container' },
@@ -24243,7 +24247,7 @@
 	                { href: carData.link },
 	                'Edumunds ',
 	                carData.make,
-	                ' and ',
+	                ' ',
 	                carData.model,
 	                ' page'
 	              )
