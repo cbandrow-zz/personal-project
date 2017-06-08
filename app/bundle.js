@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "3d2ae82fdc748bc68b30"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "078b816287492bc1ca7c"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -23024,22 +23024,19 @@
 	  }, {
 	    key: 'getCarData',
 	    value: function getCarData(make, model) {
-	      var _this4 = this;
-	
-	      fetch('https://api.edmunds.com/api/editorial/v2/' + make + '/' + model + '?view=basic&fmt=json&api_key=' + _edmundsApi2.default).then(function (resp) {
-	        return resp.json();
-	      }).then(function (data) {
-	        _this4.setState({
-	          carData: _this4.helper.reduceCarDetails(data)
-	        });
-	      }).catch(function (err) {
-	        return console.log(err);
-	      });
-	      //
-	      // let carData = this.helper.reduceCarDetails(stubbedInfoData)
-	      // this.setState({
-	      //   carData: carData,
+	      // fetch(`https://api.edmunds.com/api/editorial/v2/${make}/${model}?view=basic&fmt=json&api_key=${key}`)
+	      // .then(resp => resp.json())
+	      // .then((data) =>{
+	      //   this.setState({
+	      //     carData: this.helper.reduceCarDetails(data),
+	      //   })
 	      // })
+	      // .catch(err => console.log(err))
+	
+	      var carData = this.helper.reduceCarDetails(_stubbedInfoData2.default);
+	      this.setState({
+	        carData: carData
+	      });
 	    }
 	  }, {
 	    key: 'displayComponents',
@@ -23601,10 +23598,6 @@
 	              results.push(model.id);
 	              return;
 	            }
-	            // else if (formatModelId.includes(formatData)){
-	            //   results.push(model.id)
-	            //   return
-	            // }
 	          });
 	        });
 	      });

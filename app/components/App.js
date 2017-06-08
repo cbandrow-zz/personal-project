@@ -83,7 +83,7 @@ export default class App extends Component {
       let returnMatches = this.helper.getPotentialMakes(results, this.state.completeVehicles)
       this.setState({
         makeMatches: returnMatches[0],
-        apiResults: returnMatches[1],
+        apiResults: returnMatches[1]
       })
 
       let makes = returnMatches[0].map((makeData) =>{
@@ -96,7 +96,7 @@ export default class App extends Component {
 
       this.setState({
         compareResults: modelMatches,
-        loadingStatus: false,
+        loadingStatus: false
       })
     })
      .then(data => this.determineError())
@@ -126,19 +126,19 @@ export default class App extends Component {
   }
 
   getCarData(make, model){
-    fetch(`https://api.edmunds.com/api/editorial/v2/${make}/${model}?view=basic&fmt=json&api_key=${key}`)
-    .then(resp => resp.json())
-    .then((data) =>{
-      this.setState({
-        carData: this.helper.reduceCarDetails(data),
-      })
-    })
-    .catch(err => console.log(err))
-    //
-    // let carData = this.helper.reduceCarDetails(stubbedInfoData)
-    // this.setState({
-    //   carData: carData,
+    // fetch(`https://api.edmunds.com/api/editorial/v2/${make}/${model}?view=basic&fmt=json&api_key=${key}`)
+    // .then(resp => resp.json())
+    // .then((data) =>{
+    //   this.setState({
+    //     carData: this.helper.reduceCarDetails(data),
+    //   })
     // })
+    // .catch(err => console.log(err))
+
+    let carData = this.helper.reduceCarDetails(stubbedInfoData)
+    this.setState({
+      carData: carData
+    })
   }
 
   displayComponents(){
