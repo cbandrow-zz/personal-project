@@ -4,14 +4,14 @@ var webpackDevHelper = require('./index.dev.js');
 
 app.use(express.static('app'));
 
-app.get('/',
-  function(req, res) {
-    res.sendFile(path.join(__dirname, '/index.html'))
-  })
+// app.get('/',
+//   function(req, res) {
+//     res.sendFile(path.join(__dirname, '/index.html'))
+//   })
 
-// app.get('/index.html', function (req, res) {
-//    res.sendFile( __dirname + "/" + "index.html" );
-// })
+app.get('/index.html', function (req, res) {
+   res.sendFile( __dirname + "/" + "index.html" );
+})
 
 app.set('port', process.env.PORT || 3000)
 app.locals.title = 'Car-Tographer'
