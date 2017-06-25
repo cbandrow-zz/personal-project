@@ -126,19 +126,19 @@ export default class App extends Component {
   }
 
   getCarData(make, model){
-    // fetch(`https://api.edmunds.com/api/editorial/v2/${make}/${model}?view=basic&fmt=json&api_key=${key}`)
-    // .then(resp => resp.json())
-    // .then((data) =>{
-    //   this.setState({
-    //     carData: this.helper.reduceCarDetails(data),
-    //   })
-    // })
-    // .catch(err => console.log(err))
-
-    let carData = this.helper.reduceCarDetails(stubbedInfoData)
-    this.setState({
-      carData: carData,
+    fetch(`https://api.edmunds.com/api/editorial/v2/${make}/${model}?view=basic&fmt=json&api_key=${key}`)
+    .then(resp => resp.json())
+    .then((data) =>{
+      this.setState({
+        carData: this.helper.reduceCarDetails(data),
+      })
     })
+    .catch(err => console.log(err))
+
+    // let carData = this.helper.reduceCarDetails(stubbedInfoData)
+    // this.setState({
+    //   carData: carData,
+    // })
   }
 
   displayComponents(){

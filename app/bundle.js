@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "4d25afc6646cb483c959"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "7f462f308e408235bff7"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -23024,19 +23024,22 @@
 	  }, {
 	    key: 'getCarData',
 	    value: function getCarData(make, model) {
-	      // fetch(`https://api.edmunds.com/api/editorial/v2/${make}/${model}?view=basic&fmt=json&api_key=${key}`)
-	      // .then(resp => resp.json())
-	      // .then((data) =>{
-	      //   this.setState({
-	      //     carData: this.helper.reduceCarDetails(data),
-	      //   })
-	      // })
-	      // .catch(err => console.log(err))
+	      var _this4 = this;
 	
-	      var carData = this.helper.reduceCarDetails(_stubbedInfoData2.default);
-	      this.setState({
-	        carData: carData
+	      fetch('https://api.edmunds.com/api/editorial/v2/' + make + '/' + model + '?view=basic&fmt=json&api_key=' + _edumundsApi2.default).then(function (resp) {
+	        return resp.json();
+	      }).then(function (data) {
+	        _this4.setState({
+	          carData: _this4.helper.reduceCarDetails(data)
+	        });
+	      }).catch(function (err) {
+	        return console.log(err);
 	      });
+	
+	      // let carData = this.helper.reduceCarDetails(stubbedInfoData)
+	      // this.setState({
+	      //   carData: carData,
+	      // })
 	    }
 	  }, {
 	    key: 'displayComponents',
@@ -23598,10 +23601,6 @@
 	              results.push(model.id);
 	              return;
 	            }
-	            // else if (formatModelId.includes(formatData)){
-	            //   results.push(model.id)
-	            //   return
-	            // }
 	          });
 	        });
 	      });
@@ -23619,7 +23618,6 @@
 	  }, {
 	    key: "reduceCarDetails",
 	    value: function reduceCarDetails(data) {
-	
 	      var carData = {
 	        make: data.make.name,
 	        model: data.model.name,
@@ -23631,6 +23629,12 @@
 	        link: data.link.href
 	      };
 	      return carData;
+	    }
+	  }, {
+	    key: "reduceImageResponse",
+	    value: function reduceImageResponse(data) {
+	      var imageData = data.value[1].contentUrl;
+	      return imageData;
 	    }
 	  }]);
 	

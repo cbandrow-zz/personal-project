@@ -51,26 +51,22 @@ export default class Helper{
   }
 
   getPotentialModels(apiData, carData, reducedMatches){
-    let results = []
+    let results = [];
     apiData.forEach((data, i) =>{
       reducedMatches.forEach((match)=>{
-        let formatData = data.toLowerCase().replace(`${match.toLowerCase()} `, '')
+        let formatData = data.toLowerCase().replace(`${match.toLowerCase()} `, '');
         carData[match].models.forEach((model)=>{
-          let formatModelName = model.name.toLowerCase()
-          let formatModelId = model.id.toLowerCase()
+          let formatModelName = model.name.toLowerCase();
+          let formatModelId = model.id.toLowerCase();
           if (data.toLowerCase() === match.toLowerCase()){
-            return
+            return;
           } else if(formatData.includes(formatModelName)){
-            results.push(model.id)
-            return
+            results.push(model.id);
+            return;
           }
-          // else if (formatModelId.includes(formatData)){
-          //   results.push(model.id)
-          //   return
-          // }
-        })
-      })
-    })
+        });
+      });
+    });
 
     let reducedResults = this.reduceMatches(results)
     return reducedResults
@@ -83,7 +79,6 @@ export default class Helper{
   }
 
   reduceCarDetails(data){
-
     let carData = {
       make: data.make.name,
       model: data.model.name,
@@ -95,5 +90,10 @@ export default class Helper{
       link: data.link.href,
     }
     return carData
+  }
+
+  reduceImageResponse(data){
+    let imageData = data.value[1].contentUrl
+    return imageData
   }
 }
