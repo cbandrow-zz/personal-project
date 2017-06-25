@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "7f462f308e408235bff7"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "5d42c5f512363edc4fde"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -22877,9 +22877,9 @@
 	
 	var _DisplayCarFacts2 = _interopRequireDefault(_DisplayCarFacts);
 	
-	var _edumundsApi = __webpack_require__(210);
+	var _edmundsApi = __webpack_require__(210);
 	
-	var _edumundsApi2 = _interopRequireDefault(_edumundsApi);
+	var _edmundsApi2 = _interopRequireDefault(_edmundsApi);
 	
 	var _stubbedInfoData = __webpack_require__(211);
 	
@@ -23001,7 +23001,7 @@
 	    key: 'determineError',
 	    value: function determineError() {
 	      if (this.state.loadingStatus === false && this.state.compareResults.length < 1 && this.state.apiResults) {
-	        console.log("error?");
+	        console.log('No matches. Please try again.');
 	        this.setState({
 	          error: true
 	        });
@@ -23026,7 +23026,7 @@
 	    value: function getCarData(make, model) {
 	      var _this4 = this;
 	
-	      fetch('https://api.edmunds.com/api/editorial/v2/' + make + '/' + model + '?view=basic&fmt=json&api_key=' + _edumundsApi2.default).then(function (resp) {
+	      fetch('https://api.edmunds.com/api/editorial/v2/' + make + '/' + model + '?view=basic&fmt=json&api_key=' + _edmundsApi2.default).then(function (resp) {
 	        return resp.json();
 	      }).then(function (data) {
 	        _this4.setState({
@@ -23038,7 +23038,7 @@
 	
 	      // let carData = this.helper.reduceCarDetails(stubbedInfoData)
 	      // this.setState({
-	      //   carData: carData,
+	      //   carData: carData
 	      // })
 	    }
 	  }, {
@@ -24302,7 +24302,7 @@
 	
 	exports.default = key;
 	
-	/* REACT HOT LOADER */ }).call(this); } finally { if (true) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = __webpack_require__(196); if (makeExportsHot(module, __webpack_require__(103))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "edumundsApi.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
+	/* REACT HOT LOADER */ }).call(this); } finally { if (true) { (function () { var foundReactClasses = module.hot.data && module.hot.data.foundReactClasses || false; if (module.exports && module.makeHot) { var makeExportsHot = __webpack_require__(196); if (makeExportsHot(module, __webpack_require__(103))) { foundReactClasses = true; } var shouldAcceptModule = true && foundReactClasses; if (shouldAcceptModule) { module.hot.accept(function (err) { if (err) { console.error("Cannot apply hot update to " + "edmundsApi.js" + ": " + err.message); } }); } } module.hot.dispose(function (data) { data.makeHot = module.makeHot; data.foundReactClasses = foundReactClasses; }); })(); } }
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(2)(module)))
 
 /***/ }),

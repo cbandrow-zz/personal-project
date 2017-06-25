@@ -11,7 +11,7 @@ import vehicleData from './helpers/vehicleData.js'
 import LandingPage from './LandingPage/LandingPage'
 import DisplayCarFacts from './DisplayCarFacts/DisplayCarFacts'
 
-import key from './helpers/edumundsApi'
+import key from './helpers/edmundsApi'
 import stubbedInfoData from './helpers/stubbedInfoData'
 
 export default class App extends Component {
@@ -83,7 +83,7 @@ export default class App extends Component {
       let returnMatches = this.helper.getPotentialMakes(results, this.state.completeVehicles)
       this.setState({
         makeMatches: returnMatches[0],
-        apiResults: returnMatches[1],
+        apiResults: returnMatches[1]
       })
 
       let makes = returnMatches[0].map((makeData) =>{
@@ -96,7 +96,7 @@ export default class App extends Component {
 
       this.setState({
         compareResults: modelMatches,
-        loadingStatus: false,
+        loadingStatus: false
       })
     })
      .then(data => this.determineError())
@@ -105,7 +105,7 @@ export default class App extends Component {
 
   determineError(){
     if(this.state.loadingStatus === false && this.state.compareResults.length < 1 && this.state.apiResults){
-      console.log("error?")
+      console.log('No matches. Please try again.')
       this.setState({
         error: true,
       })
@@ -137,7 +137,7 @@ export default class App extends Component {
 
     // let carData = this.helper.reduceCarDetails(stubbedInfoData)
     // this.setState({
-    //   carData: carData,
+    //   carData: carData
     // })
   }
 
