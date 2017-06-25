@@ -1,3 +1,7 @@
 node_modules/
 bundle.js
 bundle.js.map
+.DS_Store
+apiKey.js
+edmundsApi.js
+imageKey.js
