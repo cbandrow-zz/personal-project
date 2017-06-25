@@ -17,5 +17,4 @@ const LandingPage = ({handleImageData}) => {
   )
 }
 
-
 export default LandingPage

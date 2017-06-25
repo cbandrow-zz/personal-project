@@ -133,7 +133,6 @@ export default class App extends Component {
         carData: this.helper.reduceCarDetails(data),
       })
     })
-    .catch(err => console.log(err))
 
     // let carData = this.helper.reduceCarDetails(stubbedInfoData)
     // this.setState({
