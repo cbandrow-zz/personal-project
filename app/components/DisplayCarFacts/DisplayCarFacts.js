@@ -10,6 +10,8 @@ export default class DisplayCarFacts extends Component{
     this.state = {
       value: '',
       image: '',
+      loading: '',
+      error: '',
     }
   }
 
@@ -54,6 +56,14 @@ export default class DisplayCarFacts extends Component{
     this.setState({
       value: e.target.value
     });
+  }
+
+  renderLoading(){
+    if(loading){
+      return(
+        <img src = '../../assets/images/loading.gif' width = '50px'/>
+      )
+    }
   }
 
   render(){

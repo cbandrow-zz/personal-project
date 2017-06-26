@@ -6,3 +6,8 @@
 //
 // module.exports = router;
 // //
+
+
+//router.get('/googlevision', controller)
+
+//fetch(api/googlevision)

@@ -3,13 +3,29 @@
 // const BASE_URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`
 //
 // function getPlaces(req, res, next) {
-//   request(BASE_URL, function (error, response, body) {
+//   request(BASE_URL.key.requests.etc, function (error, response, body) {
 //     if (!error && response.statusCode == 200) {
 //       res.send(body)
 //     }
 //   })
 // }
-// 
+//
 // module.exports = {
 //   getPlaces: getPlaces
 // };
+
+// function postGoogleCloudVision(req, res, next) {
+//   request({
+//     url: 'https://vision.googleapis.com/v1/images:annotate?key=',
+//     method: 'POST',
+//     headers: {
+//       'Content-Type':'application/json'
+//     },
+//     body: //insert detailed response here.
+//   },
+//   function (error, response, body){
+//     if(!error && response.statusCode == 200) {
+//       res.send(body)
+//     }
+//   })
+// }
