@@ -10,4 +10,4 @@ The application uses React.js for the UI, Express to host the site, and three di
 
 ### Screenshots: 
 
-![cartographer](http://g.recordit.co/3Y5q6KTMdQ.gif)
+![cartographer](personal-project/src/cartographer.gif)
