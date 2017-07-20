@@ -10,4 +10,8 @@ The application uses React.js for the UI, Express to host the site, and three di
 
 ### Screenshots: 
 
-![cartographer](personal-project/src/cartographer.gif)
+![cartographer](https://github.com/cbandrow/personal-project/blob/master/src/cartographer.gif)
+
+![homepage](https://github.com/cbandrow/personal-project/blob/master/app/assets/images/homepage.png)
+![loadingpage](https://github.com/cbandrow/personal-project/blob/master/app/assets/images/loadingpage.png)
+![resultsimage](https://github.com/cbandrow/personal-project/blob/master/app/assets/images/results.png)
